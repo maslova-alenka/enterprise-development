@@ -1,6 +1,7 @@
 ﻿namespace Polyclinic.PolyclinicModels;
 public class Patient
 {
+    public int ID { get; set; }
     public string PassportNumber { get; set; }
 
     public string FullName { get; set; }
