@@ -1,12 +1,19 @@
 ﻿using Polyclinic.PolyclinicModels;
-using System.Runtime.CompilerServices;
 
 namespace Polyclinic.Test;
+
+/// <summary>
+/// Test data seed for polyclinic system
+/// </summary>
 public class DataSeed
 {
-    public List<Doctor> Doctors { get; set; } = 
+
+    /// <summary>
+    /// List of doctors
+    /// </summary>
+    public List<Doctor> Doctors { get; set; } =
     [
-        new Doctor 
+        new Doctor
         {
             ID = 1,
             PassportNumber = "1854 654123",
@@ -83,39 +90,11 @@ public class DataSeed
 
         },
 
-        new Doctor
-        {
-            ID = 8,
-            PassportNumber = "4147 775533",
-            FullName = "Лебедев Дмитрий Евгеньевич",
-            BirthYear = 1979,
-            Specialization = "Эндокринолог",
-            ExperienceYears = 17
-
-        },
-
-        new Doctor
-        {
-            ID = 9,
-            PassportNumber = "3541 542145",
-            FullName = "Кузнецова Дарья Владимировна",
-            BirthYear = 1986,
-            Specialization = "Терапевт",
-            ExperienceYears = 12
-
-        },
-
-        new Doctor
-        {
-            ID = 10,
-            PassportNumber = "7544 445511",
-            FullName = "Иващенко Надежда Александровна",
-            BirthYear = 1995,
-            Specialization = "Офтальмолог",
-            ExperienceYears = 3
-
-        },
     ];
+
+    /// <summary>
+    /// List of patients
+    /// </summary>
     public List<Patient> Patients { get; set; } =
     [
         new Patient
@@ -260,12 +239,9 @@ public class DataSeed
 
     ];
 
-    public int ID { get; set; }
-    public string PatientPassport { get; set; }
-    public string DoctorPassport { get; set; }
-    public DateTime AppointmentDateTime { get; set; }
-    public int RoomNumber { get; set; }
-    public bool IsFollowUp { get; set; }
+    /// <summary>
+    /// List of appointments
+    /// </summary>
     public List<Appointment> Appointments { get; set; } =
         [
             new Appointment{
@@ -274,7 +250,7 @@ public class DataSeed
                 DoctorId = 1,
                 AppointmentDateTime = new DateTime(2025, 6, 14, 10, 0,0),
                 RoomNumber = 254,
-                IsFollowUp = true   
+                IsFollowUp = true
             },
 
             new Appointment{
@@ -308,7 +284,7 @@ public class DataSeed
                 ID = 5,
                 PatientId = 5,
                 DoctorId = 5,
-                AppointmentDateTime = new DateTime(2025, 7, 9, 13, 30,0),
+                AppointmentDateTime = new DateTime(2025, 2, 9, 13, 30,0),
                 RoomNumber = 201,
                 IsFollowUp = false
             },
@@ -326,15 +302,15 @@ public class DataSeed
                 ID = 7,
                 PatientId = 7,
                 DoctorId = 7,
-                AppointmentDateTime = new DateTime(2025, 2, 28, 10, 0,0),
-                RoomNumber = 222,
+                AppointmentDateTime = new DateTime(2025, 2, 27, 10, 0,0),
+                RoomNumber = 201,
                 IsFollowUp = true
             },
 
             new Appointment{
                 ID = 8,
                 PatientId = 8,
-                DoctorId = 8,
+                DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 5, 27, 16, 15,0),
                 RoomNumber = 123,
                 IsFollowUp = false
@@ -343,7 +319,7 @@ public class DataSeed
             new Appointment{
                 ID = 9,
                 PatientId = 9,
-                DoctorId = 9,
+                DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 6, 30, 12, 30,0),
                 RoomNumber = 241,
                 IsFollowUp = false
@@ -352,7 +328,7 @@ public class DataSeed
             new Appointment{
                 ID = 10,
                 PatientId = 10,
-                DoctorId = 10,
+                DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 8, 15, 14, 50,0),
                 RoomNumber = 118,
                 IsFollowUp = true
@@ -360,3 +336,4 @@ public class DataSeed
 
         ];
 }
+
