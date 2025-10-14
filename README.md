@@ -18,6 +18,7 @@
 
 
 ### Структура проекта
+```
 Polyclinic/
 ├── Polyclinic/
 │   └── PolyclinicModels/
@@ -33,6 +34,7 @@ Polyclinic/
     └── Test/
          ├── DataSeed.cs
          └── PolyclinicTest.cs
+```
 
 ### Тесты
 1) Вывести информацию о всех врачах, стаж работы которых не менее 10 лет.
