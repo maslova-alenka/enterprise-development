@@ -1,4 +1,5 @@
 ﻿using Polyclinic.PolyclinicModels;
+using Polyclinic.PolyclinicModels.Enums;
 
 namespace Polyclinic.Test;
 

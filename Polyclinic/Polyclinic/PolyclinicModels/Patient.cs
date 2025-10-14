@@ -1,4 +1,6 @@
-﻿namespace Polyclinic.PolyclinicModels;
+﻿using Polyclinic.PolyclinicModels.Enums;
+
+namespace Polyclinic.PolyclinicModels;
 
 /// <summary>
 /// Patient personal and medical information

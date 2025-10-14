@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.PolyclinicModels;
+﻿namespace Polyclinic.PolyclinicModels.Enums;
 
 /// <summary>
 /// Represents the blood type of a patient.
