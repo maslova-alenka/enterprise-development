@@ -134,7 +134,7 @@ public class DataSeed
             PassportNumber = "4321 654321",
             FullName = "Иванова Мария Романовна",
             Gender = Gender.Female,
-            Birthday = new DateTime(2000, 6, 19),
+            Birthday = new DateTime(1980, 6, 19),
             Address = "ул. Ленина, д.147, кв 15",
             BloodType = BloodType.AB,
             RhFactor = RhFactor.Positive,
@@ -290,9 +290,9 @@ public class DataSeed
 
             new Appointment{
                 Id = 4,
-                PatientId = 4,
+                PatientId = 3,
                 DoctorId = 4,
-                AppointmentDateTime = new DateTime(2025, 5, 29, 15, 20,0),
+                AppointmentDateTime = new DateTime(2025, 2, 26, 15, 20,0),
                 RoomNumber = 352,
                 IsFollowUp = true
             },
@@ -308,7 +308,7 @@ public class DataSeed
 
             new Appointment{
                 Id = 6,
-                PatientId = 6,
+                PatientId = 2,
                 DoctorId = 6,
                 AppointmentDateTime = new DateTime(2025, 11, 22, 13, 0,0),
                 RoomNumber = 405,

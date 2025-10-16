@@ -31,9 +31,8 @@ Polyclinic/
 │       └── Patient.cs
 │
 └── Polyclinic.Test/
-    └── Test/
-         ├── DataSeed.cs
-         └── PolyclinicTest.cs
+    ├── DataSeed.cs
+    └── PolyclinicTest.cs
 ```
 
 ### Тесты

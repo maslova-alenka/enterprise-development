@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.Test.Test
+﻿namespace Polyclinic.Test
 
 /// <summary>
 /// Unit tests for Polyclinic
@@ -12,13 +12,16 @@
         [Fact]
         public void GetDoctorsWithExperienceAtLeast10Years()
         {
-            var expectedCount = 6;
+            List<int> expectedDoctors = [1, 2, 3, 5, 6, 7];
 
-            var experiencedDoctors = seed.Doctors.Where(d => d.ExperienceYears >= 10).ToList();
+            var experiencedDoctors = seed.Doctors
+                .Where(d => d.ExperienceYears >= 10)
+                .Select(d => d.Id)
+                .Order()
+                .ToList();
 
             Assert.NotNull(experiencedDoctors);
-            Assert.All(experiencedDoctors, d => Assert.True(d.ExperienceYears >= 10));
-            Assert.Equal(expectedCount, experiencedDoctors.Count);
+            Assert.Equal(expectedDoctors, experiencedDoctors);
         }
 
         /// <summary>
@@ -27,7 +30,7 @@
         [Fact]
         public void GetPatientsByDoctorOrderedByName()
         {
-            var doctorId = 7;
+            const int doctorId = 7;
 
             var patientIds = seed.Appointments
                 .Where(a => a.DoctorId == doctorId)
@@ -40,7 +43,7 @@
                 .ToList();
 
             Assert.True(result.Count > 0);
-            Assert.Equal(result, result.OrderBy(p => p.FullName).ToList());
+            Assert.Equal(result, [.. result.OrderBy(p => p.FullName)]);
 
         }
 
@@ -50,15 +53,17 @@
         [Fact]
         public void GetFollowUpAppointmentsCountLastMonth()
         {
-
-            var lastMonth = DateTime.Now.AddMonths(-1);
+            const int reference = 2;
+            var referenceDate = new DateTime(2025, 3, 1);
+            var lastMonth = referenceDate.AddMonths(-1);
 
             var result = seed.Appointments.Count(a =>
                 a.IsFollowUp &&
                 a.AppointmentDateTime.Month == lastMonth.Month &&
                 a.AppointmentDateTime.Year == lastMonth.Year);
 
-            Assert.True(result >= 0);
+            Assert.Equal(reference, result);
+
         }
 
         /// <summary>
@@ -73,14 +78,14 @@
                 .Select(g => g.Key)
                 .ToList();
 
-            var cutoffDate = DateTime.Now.AddYears(-30);
+            var cutoffDate = new DateTime(1995, 10, 16);
             var result = seed.Patients
                 .Where(p => patientsWithMultipleDoctors.Contains(p.Id) && p.Birthday <= cutoffDate)
                 .OrderBy(p => p.Birthday)
                 .ToList();
 
-            Assert.All(result, patient => Assert.True(DateTime.Now.Year - patient.Birthday.Year >= 30));
-            Assert.Equal(result, result.OrderBy(p => p.Birthday).ToList());
+            Assert.Equal(2, result.Count);
+            Assert.Equal(result, [.. result.OrderBy(p => p.Birthday)]);
         }
 
         /// <summary>
