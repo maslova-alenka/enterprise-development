@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.PolyclinicModels;
+﻿namespace Polyclinic.Models;
 
 /// <summary>
 /// Represents a medical appointment in the polyclinic system.
@@ -8,7 +8,7 @@ public class Appointment
     /// <summary>
     /// Unique identifier for the appointment record
     /// </summary>
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Foreign key referencing the Patient who booked the appointment

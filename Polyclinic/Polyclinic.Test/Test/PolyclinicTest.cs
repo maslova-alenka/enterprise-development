@@ -6,7 +6,6 @@
 {
     public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
     {
-
         /// <summary>
         /// Test to fetch doctors with at least 10 years of experience
         /// </summary>
@@ -36,7 +35,7 @@
                 .Distinct();
 
             var result = seed.Patients
-                .Where(p => patientIds.Contains(p.ID))
+                .Where(p => patientIds.Contains(p.Id))
                 .OrderBy(p => p.FullName)
                 .ToList();
 
@@ -76,7 +75,7 @@
 
             var cutoffDate = DateTime.Now.AddYears(-30);
             var result = seed.Patients
-                .Where(p => patientsWithMultipleDoctors.Contains(p.ID) && p.Birthday <= cutoffDate)
+                .Where(p => patientsWithMultipleDoctors.Contains(p.Id) && p.Birthday <= cutoffDate)
                 .OrderBy(p => p.Birthday)
                 .ToList();
 

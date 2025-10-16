@@ -1,15 +1,16 @@
-﻿namespace Polyclinic.PolyclinicModels;
+﻿using Polyclinic.Models.Enums;
+
+namespace Polyclinic.Models;
 
 /// <summary>
 /// Medical doctor information
 /// </summary>
 public class Doctor
 {
-
     /// <summary>
     /// Unique identifier
     /// </summary>
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Passport number for identification
@@ -29,7 +30,7 @@ public class Doctor
     /// <summary>
     /// Medical specialization
     /// </summary>
-    public required string Specialization { get; set; }
+    public required Specialization Specialization { get; set; }
 
     /// <summary>
     /// Years of professional experience

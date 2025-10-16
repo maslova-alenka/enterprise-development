@@ -1,5 +1,5 @@
-﻿using Polyclinic.PolyclinicModels;
-using Polyclinic.PolyclinicModels.Enums;
+﻿using Polyclinic.Models;
+using Polyclinic.Models.Enums;
 
 namespace Polyclinic.Test;
 
@@ -8,6 +8,22 @@ namespace Polyclinic.Test;
 /// </summary>
 public class DataSeed
 {
+    /// <summary>
+    /// List of specializations
+    /// </summary>
+    public static List<Specialization> Specializations { get; } =
+        [
+        new Specialization{ Id = 1, Name = "Хирург"},
+        new Specialization{ Id = 2, Name = "Невролог"},
+        new Specialization{ Id = 3, Name = "Дерматолог"},
+        new Specialization{ Id = 4, Name = "Офтальмолог"},
+        new Specialization{ Id = 5, Name = "Терапевт"},
+        new Specialization{ Id = 6, Name = "Педиатр"},
+        new Specialization{ Id = 7, Name = "Стоматолог"},
+        new Specialization{ Id = 8, Name = "Ортопед"},
+        new Specialization{ Id = 9, Name = "Кардиолог"},
+        new Specialization{ Id = 10, Name = "Эндокринолог"},
+        ];
 
     /// <summary>
     /// List of doctors
@@ -16,77 +32,77 @@ public class DataSeed
     [
         new Doctor
         {
-            ID = 1,
+            Id = 1,
             PassportNumber = "1854 654123",
             FullName = "Воробьев Григорий Павлович",
             BirthYear = 1984,
-            Specialization = "Хирург",
+            Specialization = Specializations[0],
             ExperienceYears = 10
 
         },
 
         new Doctor
         {
-            ID = 2,
+            Id = 2,
             PassportNumber = "5489 658745",
             FullName = "Соколова Галина Михайлова",
             BirthYear = 1967,
-            Specialization = "Невролог",
+            Specialization = Specializations[1],
             ExperienceYears = 26
 
         },
 
         new Doctor
         {
-            ID = 3,
+            Id = 3,
             PassportNumber = "7598 658234",
             FullName = "Попов Николай Игоревич",
             BirthYear = 1977,
-            Specialization = "Дерматолог",
+            Specialization = Specializations[3],
             ExperienceYears = 18
 
         },
 
         new Doctor
         {
-            ID = 4,
+            Id = 4,
             PassportNumber = "7539 951357",
             FullName = "Новиков Анатолий Юрьевич",
             BirthYear = 1989,
-            Specialization = "Офтальмолог",
+            Specialization = Specializations[4],
             ExperienceYears = 8
 
         },
 
         new Doctor
         {
-            ID = 5,
+            Id = 5,
             PassportNumber = "3984 109283",
             FullName = "Крылова Инна Александровна",
             BirthYear = 1980,
-            Specialization = "Хирург",
+            Specialization = Specializations[6],
             ExperienceYears = 16
 
         },
 
         new Doctor
         {
-            ID = 6,
+            Id = 6,
             PassportNumber = "5984 398623",
             FullName = "Григорьева Анна Михайловна",
             BirthYear = 1969,
-            Specialization = "Терапевт",
+            Specialization = Specializations[6],
             ExperienceYears = 31
 
         },
 
         new Doctor
         {
-            ID = 7,
+            Id = 7,
             PassportNumber = "5752 757855",
             FullName = "Васнецов Сергей Андреевич",
             BirthYear = 1985,
-            Specialization = "Педиатр",
+            Specialization = Specializations[6],
             ExperienceYears = 11
 
         },
@@ -100,7 +116,7 @@ public class DataSeed
     [
         new Patient
         {
-            ID = 1,
+            Id = 1,
             PassportNumber = "1234 123456",
             FullName = "Петров Петр Петрович",
             Gender = Gender.Male,
@@ -114,7 +130,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 2,
+            Id = 2,
             PassportNumber = "4321 654321",
             FullName = "Иванова Мария Романовна",
             Gender = Gender.Female,
@@ -128,7 +144,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 3,
+            Id = 3,
             PassportNumber = "1234 582736",
             FullName = "Сидорова Валентина Ивановна",
             Gender = Gender.Female,
@@ -142,7 +158,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 4,
+            Id = 4,
             PassportNumber = "1324 459985",
             FullName = "Васильев Василий Васильевич",
             Gender = Gender.Male,
@@ -156,7 +172,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 5,
+            Id = 5,
             PassportNumber = "1747 452796",
             FullName = "Смирнова Ольга Олеговна",
             Gender = Gender.Female,
@@ -170,7 +186,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 6,
+            Id = 6,
             PassportNumber = "6487 123456",
             FullName = "Романов Антон Александрович",
             Gender = Gender.Male,
@@ -184,7 +200,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 7,
+            Id = 7,
             PassportNumber = "5873 561728",
             FullName = "Романова Виктория Сергеевна",
             Gender = Gender.Female,
@@ -198,7 +214,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 8,
+            Id = 8,
             PassportNumber = "4562 753698",
             FullName = "Чехов Александр Александрович",
             Gender = Gender.Male,
@@ -212,7 +228,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 9,
+            Id = 9,
             PassportNumber = "5555 555555",
             FullName = "Иванов Иван Иванович",
             Gender = Gender.Male,
@@ -226,7 +242,7 @@ public class DataSeed
 
         new Patient
         {
-            ID = 10,
+            Id = 10,
             PassportNumber = "4275 724586",
             FullName = "Петрова Оксана Владимировна",
             Gender = Gender.Female,
@@ -246,7 +262,7 @@ public class DataSeed
     public List<Appointment> Appointments { get; set; } =
         [
             new Appointment{
-                ID = 1,
+                Id = 1,
                 PatientId = 1,
                 DoctorId = 1,
                 AppointmentDateTime = new DateTime(2025, 6, 14, 10, 0,0),
@@ -255,7 +271,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 2,
+                Id = 2,
                 PatientId = 2,
                 DoctorId = 2,
                 AppointmentDateTime = new DateTime(2025, 10, 24, 11, 45,0),
@@ -264,7 +280,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 3,
+                Id = 3,
                 PatientId = 3,
                 DoctorId = 3,
                 AppointmentDateTime = new DateTime(2025, 9, 6, 10, 15,0),
@@ -273,7 +289,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 4,
+                Id = 4,
                 PatientId = 4,
                 DoctorId = 4,
                 AppointmentDateTime = new DateTime(2025, 5, 29, 15, 20,0),
@@ -282,7 +298,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 5,
+                Id = 5,
                 PatientId = 5,
                 DoctorId = 5,
                 AppointmentDateTime = new DateTime(2025, 2, 9, 13, 30,0),
@@ -291,7 +307,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 6,
+                Id = 6,
                 PatientId = 6,
                 DoctorId = 6,
                 AppointmentDateTime = new DateTime(2025, 11, 22, 13, 0,0),
@@ -300,7 +316,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 7,
+                Id = 7,
                 PatientId = 7,
                 DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 2, 27, 10, 0,0),
@@ -309,7 +325,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 8,
+                Id = 8,
                 PatientId = 8,
                 DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 5, 27, 16, 15,0),
@@ -318,7 +334,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 9,
+                Id = 9,
                 PatientId = 9,
                 DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 6, 30, 12, 30,0),
@@ -327,7 +343,7 @@ public class DataSeed
             },
 
             new Appointment{
-                ID = 10,
+                Id = 10,
                 PatientId = 10,
                 DoctorId = 7,
                 AppointmentDateTime = new DateTime(2025, 8, 15, 14, 50,0),

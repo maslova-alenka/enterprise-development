@@ -1,17 +1,16 @@
-﻿using Polyclinic.PolyclinicModels.Enums;
+﻿using Polyclinic.Models.Enums;
 
-namespace Polyclinic.PolyclinicModels;
+namespace Polyclinic.Models;
 
 /// <summary>
 /// Patient personal and medical information
 /// </summary>
 public class Patient
 {
-
     /// <summary>
     /// Unique identifier
     /// </summary>
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Passport number for identification
