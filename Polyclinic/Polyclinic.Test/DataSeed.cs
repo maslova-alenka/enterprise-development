@@ -260,97 +260,97 @@ public class DataSeed
     /// List of appointments
     /// </summary>
     public static List<Appointment> Appointments { get; set; } =
-        [
-            new Appointment{
-                Id = 1,
-                Patient = Patients[0],
-                Doctor = Doctors[0],
-                AppointmentDateTime = new DateTime(2025, 6, 14, 10, 0,0),
-                RoomNumber = 254,
-                IsFollowUp = true
-            },
+    [
+        new Appointment{
+            Id = 1,
+            Patient = Patients[0],
+            Doctor = Doctors[0],
+            AppointmentDateTime = new DateTime(2025, 6, 14, 10, 0,0),
+            RoomNumber = 254,
+            IsFollowUp = true
+        },
 
-            new Appointment{
-                Id = 2,
-                Patient = Patients[1],
-                Doctor = Doctors[1],
-                AppointmentDateTime = new DateTime(2025, 10, 24, 11, 45,0),
-                RoomNumber = 101,
-                IsFollowUp = true
-            },
+        new Appointment{
+            Id = 2,
+            Patient = Patients[1],
+            Doctor = Doctors[1],
+            AppointmentDateTime = new DateTime(2025, 10, 24, 11, 45,0),
+            RoomNumber = 101,
+            IsFollowUp = true
+        },
 
-            new Appointment{
-                Id = 3,
-                Patient = Patients[2],
-                Doctor = Doctors[2],
-                AppointmentDateTime = new DateTime(2025, 9, 6, 10, 15,0),
-                RoomNumber = 112,
-                IsFollowUp = false
-            },
+        new Appointment{
+            Id = 3,
+            Patient = Patients[2],
+            Doctor = Doctors[2],
+            AppointmentDateTime = new DateTime(2025, 9, 6, 10, 15,0),
+            RoomNumber = 112,
+            IsFollowUp = false
+        },
 
-            new Appointment{
-                Id = 4,
-                Patient = Patients[2],
-                Doctor = Doctors[3],
-                AppointmentDateTime = new DateTime(2025, 2, 26, 15, 20,0),
-                RoomNumber = 352,
-                IsFollowUp = true
-            },
+        new Appointment{
+            Id = 4,
+            Patient = Patients[2],
+            Doctor = Doctors[3],
+            AppointmentDateTime = new DateTime(2025, 2, 26, 15, 20,0),
+            RoomNumber = 352,
+            IsFollowUp = true
+        },
 
-            new Appointment{
-                Id = 5,
-                Patient = Patients[4],
-                Doctor = Doctors[4],
-                AppointmentDateTime = new DateTime(2025, 2, 9, 13, 30,0),
-                RoomNumber = 201,
-                IsFollowUp = false
-            },
+        new Appointment{
+            Id = 5,
+            Patient = Patients[4],
+            Doctor = Doctors[4],
+            AppointmentDateTime = new DateTime(2025, 2, 9, 13, 30,0),
+            RoomNumber = 201,
+            IsFollowUp = false
+        },
 
-            new Appointment{
-                Id = 6,
-                Patient = Patients[1],
-                Doctor = Doctors[5],
-                AppointmentDateTime = new DateTime(2025, 11, 22, 13, 0,0),
-                RoomNumber = 405,
-                IsFollowUp = false
-            },
+        new Appointment{
+            Id = 6,
+            Patient = Patients[1],
+            Doctor = Doctors[5],
+            AppointmentDateTime = new DateTime(2025, 11, 22, 13, 0,0),
+            RoomNumber = 405,
+            IsFollowUp = false
+        },
 
-            new Appointment{
-                Id = 7,
-                Patient = Patients[6],
-                Doctor = Doctors[6],
-                AppointmentDateTime = new DateTime(2025, 2, 27, 10, 0,0),
-                RoomNumber = 201,
-                IsFollowUp = true
-            },
+        new Appointment{
+            Id = 7,
+            Patient = Patients[6],
+            Doctor = Doctors[6],
+            AppointmentDateTime = new DateTime(2025, 2, 27, 10, 0,0),
+            RoomNumber = 201,
+            IsFollowUp = true
+        },
 
-            new Appointment{
-                Id = 8,
-                Patient = Patients[7],
-                Doctor = Doctors[6],
-                AppointmentDateTime = new DateTime(2025, 5, 27, 16, 15,0),
-                RoomNumber = 123,
-                IsFollowUp = false
-            },
+        new Appointment{
+            Id = 8,
+            Patient = Patients[7],
+            Doctor = Doctors[6],
+            AppointmentDateTime = new DateTime(2025, 5, 27, 16, 15,0),
+            RoomNumber = 123,
+            IsFollowUp = false
+        },
 
-            new Appointment{
-                Id = 9,
-                Patient = Patients[8],
-                Doctor = Doctors[6],
-                AppointmentDateTime = new DateTime(2025, 6, 30, 12, 30,0),
-                RoomNumber = 241,
-                IsFollowUp = false
-            },
+        new Appointment{
+            Id = 9,
+            Patient = Patients[8],
+            Doctor = Doctors[6],
+            AppointmentDateTime = new DateTime(2025, 6, 30, 12, 30,0),
+            RoomNumber = 241,
+            IsFollowUp = false
+        },
 
-            new Appointment{
-                Id = 10,
-                Patient = Patients[9],
-                Doctor = Doctors[6],
-                AppointmentDateTime = new DateTime(2025, 8, 15, 14, 50,0),
-                RoomNumber = 118,
-                IsFollowUp = true
-            },
+        new Appointment{
+            Id = 10,
+            Patient = Patients[9],
+            Doctor = Doctors[6],
+            AppointmentDateTime = new DateTime(2025, 8, 15, 14, 50,0),
+            RoomNumber = 118,
+            IsFollowUp = true
+        },
 
-        ];
+    ];
 }
 

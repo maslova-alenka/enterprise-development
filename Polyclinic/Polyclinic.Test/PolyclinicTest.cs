@@ -1,6 +1,5 @@
 ﻿namespace Polyclinic.Test;
 
-
 /// <summary>
 /// Unit tests for Polyclinic
 /// </summary>
@@ -49,7 +48,6 @@ public class PolyclinicTest(TestFixture fixture) : IClassFixture<TestFixture>
 
         Assert.True(result.Count > 0);
         Assert.Equal(expectedNames, result);
-
     }
 
     /// <summary>
@@ -68,7 +66,6 @@ public class PolyclinicTest(TestFixture fixture) : IClassFixture<TestFixture>
             a.AppointmentDateTime.Year == lastMonth.Year);
 
         Assert.Equal(reference, result);
-
     }
 
     /// <summary>
@@ -93,7 +90,6 @@ public class PolyclinicTest(TestFixture fixture) : IClassFixture<TestFixture>
             .OrderBy(p => p.Birthday)
             .Select(p => p.FullName)
             .ToList();
-
 
         Assert.Equal(expectedNames, patients);
     }
