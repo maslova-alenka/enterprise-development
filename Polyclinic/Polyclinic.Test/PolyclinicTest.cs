@@ -46,7 +46,6 @@ public class PolyclinicTest(TestFixture fixture) : IClassFixture<TestFixture>
             .Select(p => p.FullName)
             .ToList();
 
-        Assert.True(result.Count > 0);
         Assert.Equal(expectedNames, result);
     }
 
