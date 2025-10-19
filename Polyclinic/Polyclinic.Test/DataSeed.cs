@@ -259,7 +259,7 @@ public class DataSeed
     /// <summary>
     /// List of appointments
     /// </summary>
-    public List<Appointment> Appointments { get; set; } =
+    public static List<Appointment> Appointments { get; set; } =
         [
             new Appointment{
                 Id = 1,

@@ -4,7 +4,7 @@
 /// <summary>
 /// Unit tests for Polyclinic
 /// </summary>
-public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
+public class PolyclinicTest(TestFixture fixture) : IClassFixture<TestFixture>
 {
     /// <summary>
     /// Test to fetch doctors with at least 10 years of experience
@@ -14,7 +14,7 @@ public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
     {
         List<int> expectedDoctors = [1, 2, 3, 5, 6, 7];
 
-        var experiencedDoctors = seed.Doctors
+        var experiencedDoctors = fixture.Doctors
             .Where(d => d.ExperienceYears >= 10)
             .Select(d => d.Id)
             .Order()
@@ -39,7 +39,7 @@ public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
             "Чехов Александр Александрович"
         };
 
-        var result = seed.Appointments
+        var result = fixture.Appointments
             .Where(a => a.Doctor.Id == doctorId)
             .Select(a => a.Patient)
             .Distinct()
@@ -62,7 +62,7 @@ public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
         var referenceDate = new DateTime(2025, 3, 1);
         var lastMonth = referenceDate.AddMonths(-1);
 
-        var result = seed.Appointments.Count(a =>
+        var result = fixture.Appointments.Count(a =>
             a.IsFollowUp &&
             a.AppointmentDateTime.Month == lastMonth.Month &&
             a.AppointmentDateTime.Year == lastMonth.Year);
@@ -85,7 +85,7 @@ public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
 
         var cutoffDate = new DateTime(1995, 10, 16);
 
-        var patients = seed.Appointments
+        var patients = fixture.Appointments
             .GroupBy(a => a.Patient.Id)
             .Where(g => g.Select(a => a.Doctor.Id).Distinct().Count() > 1)
             .Select(g => g.First().Patient)
@@ -109,7 +109,7 @@ public class PolyclinicTest(DataSeed seed) : IClassFixture<DataSeed>
         var startDate = new DateTime(2025, 2, 1);
         var endDate = new DateTime(2025, 2, 28);
 
-        var appointments = seed.Appointments
+        var appointments = fixture.Appointments
             .Where(a => a.RoomNumber == roomNumber &&
                        a.AppointmentDateTime >= startDate &&
                        a.AppointmentDateTime <= endDate)
