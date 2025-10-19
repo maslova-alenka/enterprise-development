@@ -28,7 +28,7 @@ public class DataSeed
     /// <summary>
     /// List of doctors
     /// </summary>
-    public List<Doctor> Doctors { get; set; } =
+    public static List<Doctor> Doctors { get; set; } =
     [
         new Doctor
         {
@@ -112,7 +112,7 @@ public class DataSeed
     /// <summary>
     /// List of patients
     /// </summary>
-    public List<Patient> Patients { get; set; } =
+    public static List<Patient> Patients { get; set; } =
     [
         new Patient
         {
@@ -136,7 +136,7 @@ public class DataSeed
             Gender = Gender.Female,
             Birthday = new DateTime(1980, 6, 19),
             Address = "ул. Ленина, д.147, кв 15",
-            BloodType = BloodType.AB,
+            BloodType = BloodType.Ab,
             RhFactor = RhFactor.Positive,
             PhoneNumber = "89945382732"
 
@@ -220,7 +220,7 @@ public class DataSeed
             Gender = Gender.Male,
             Birthday = new DateTime(2002, 5, 5),
             Address = "ул. Студенческая, д. 18, кв. 76",
-            BloodType = BloodType.AB,
+            BloodType = BloodType.Ab,
             RhFactor = RhFactor.Negative,
             PhoneNumber = "89274924685"
 
@@ -263,8 +263,8 @@ public class DataSeed
         [
             new Appointment{
                 Id = 1,
-                PatientId = 1,
-                DoctorId = 1,
+                Patient = Patients[0],
+                Doctor = Doctors[0],
                 AppointmentDateTime = new DateTime(2025, 6, 14, 10, 0,0),
                 RoomNumber = 254,
                 IsFollowUp = true
@@ -272,8 +272,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 2,
-                PatientId = 2,
-                DoctorId = 2,
+                Patient = Patients[1],
+                Doctor = Doctors[1],
                 AppointmentDateTime = new DateTime(2025, 10, 24, 11, 45,0),
                 RoomNumber = 101,
                 IsFollowUp = true
@@ -281,8 +281,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 3,
-                PatientId = 3,
-                DoctorId = 3,
+                Patient = Patients[2],
+                Doctor = Doctors[2],
                 AppointmentDateTime = new DateTime(2025, 9, 6, 10, 15,0),
                 RoomNumber = 112,
                 IsFollowUp = false
@@ -290,8 +290,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 4,
-                PatientId = 3,
-                DoctorId = 4,
+                Patient = Patients[2],
+                Doctor = Doctors[3],
                 AppointmentDateTime = new DateTime(2025, 2, 26, 15, 20,0),
                 RoomNumber = 352,
                 IsFollowUp = true
@@ -299,8 +299,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 5,
-                PatientId = 5,
-                DoctorId = 5,
+                Patient = Patients[4],
+                Doctor = Doctors[4],
                 AppointmentDateTime = new DateTime(2025, 2, 9, 13, 30,0),
                 RoomNumber = 201,
                 IsFollowUp = false
@@ -308,8 +308,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 6,
-                PatientId = 2,
-                DoctorId = 6,
+                Patient = Patients[1],
+                Doctor = Doctors[5],
                 AppointmentDateTime = new DateTime(2025, 11, 22, 13, 0,0),
                 RoomNumber = 405,
                 IsFollowUp = false
@@ -317,8 +317,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 7,
-                PatientId = 7,
-                DoctorId = 7,
+                Patient = Patients[6],
+                Doctor = Doctors[6],
                 AppointmentDateTime = new DateTime(2025, 2, 27, 10, 0,0),
                 RoomNumber = 201,
                 IsFollowUp = true
@@ -326,8 +326,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 8,
-                PatientId = 8,
-                DoctorId = 7,
+                Patient = Patients[7],
+                Doctor = Doctors[6],
                 AppointmentDateTime = new DateTime(2025, 5, 27, 16, 15,0),
                 RoomNumber = 123,
                 IsFollowUp = false
@@ -335,8 +335,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 9,
-                PatientId = 9,
-                DoctorId = 7,
+                Patient = Patients[8],
+                Doctor = Doctors[6],
                 AppointmentDateTime = new DateTime(2025, 6, 30, 12, 30,0),
                 RoomNumber = 241,
                 IsFollowUp = false
@@ -344,8 +344,8 @@ public class DataSeed
 
             new Appointment{
                 Id = 10,
-                PatientId = 10,
-                DoctorId = 7,
+                Patient = Patients[9],
+                Doctor = Doctors[6],
                 AppointmentDateTime = new DateTime(2025, 8, 15, 14, 50,0),
                 RoomNumber = 118,
                 IsFollowUp = true

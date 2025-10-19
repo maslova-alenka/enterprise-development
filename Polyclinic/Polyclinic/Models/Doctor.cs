@@ -1,6 +1,4 @@
-﻿using Polyclinic.Models.Enums;
-
-namespace Polyclinic.Models;
+﻿namespace Polyclinic.Models;
 
 /// <summary>
 /// Medical doctor information

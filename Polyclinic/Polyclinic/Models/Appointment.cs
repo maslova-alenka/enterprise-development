@@ -13,12 +13,12 @@ public class Appointment
     /// <summary>
     /// Foreign key referencing the Patient who booked the appointment
     /// </summary>
-    public int PatientId { get; set; }
+    public required Patient Patient { get; set; }
 
     /// <summary>
     /// Foreign key referencing the Doctor who will conduct the appointment
     /// </summary>
-    public int DoctorId { get; set; }
+    public required Doctor Doctor { get; set; }
 
     /// <summary>
     /// Date and time when the appointment is scheduled to take place
