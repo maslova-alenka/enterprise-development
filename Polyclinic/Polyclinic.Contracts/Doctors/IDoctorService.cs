@@ -7,8 +7,8 @@ namespace Polyclinic.Contracts.Doctors;
 public interface IDoctorService : IApplicationService<DoctorDto, DoctorCreateUpdateDto, int>
 {
 
-    public Task<IList<AppointmentDto>> GetDoctorAppointments(int doctorId);
+    public List<AppointmentDto> GetDoctorAppointments(int doctorId);
 
 
-    public Task<IList<PatientDto>> GetDoctorPatients(int doctorId);
+    public List<PatientDto> GetDoctorPatients(int doctorId);
 }

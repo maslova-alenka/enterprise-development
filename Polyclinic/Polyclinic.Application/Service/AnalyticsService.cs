@@ -3,40 +3,47 @@ using Polyclinic.Contracts;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Appointments;
+using Polyclinic.Models;
+using Polyclinic.Repositories;
 
 namespace Polyclinic.Application.Service;
 
-
 public class AnalyticsService(
-    IDoctorRepository doctorRepository,
-    IPatientRepository patientRepository,
-    IAppointmentRepository appointmentRepository,
+    IRepository<Doctor, int> doctorRepository,
+    IRepository<Appointment, int> appointmentRepository,
     IMapper mapper) : IAnalyticsService
 {
     /// <inheritdoc/>
-    public async Task<IList<DoctorDto>> GetDoctorsWithExperienceAtLeast(int minYears) =>
-        mapper.Map<List<DoctorDto>>((await doctorRepository.GetAllAsync())
+    public List<DoctorDto> GetDoctorsWithExperienceAtLeast(int minYears) =>
+        mapper.Map<List<DoctorDto>>(doctorRepository.ReadAll()
             .Where(d => d.ExperienceYears >= minYears)
             .OrderBy(d => d.Id)
             .ToList());
 
     /// <inheritdoc/>
-    public async Task<IList<PatientDto>> GetPatientsByDoctorOrderedByName(int doctorId) =>
-        mapper.Map<List<PatientDto>>((await appointmentRepository.GetByDoctorAsync(doctorId))
+    public List<PatientDto> GetPatientsByDoctorOrderedByName(int doctorId) =>
+        mapper.Map<List<PatientDto>>(appointmentRepository.ReadAll()
+            .Where(a => a.Doctor.Id == doctorId)
             .Select(a => a.Patient)
             .Distinct()
             .OrderBy(p => p.FullName)
             .ToList());
 
     /// <inheritdoc/>
-    public async Task<int> GetFollowUpAppointmentsCountLastMonth(DateTime referenceDate) =>
-        await appointmentRepository.GetFollowUpCountAsync(referenceDate);
+    public int GetFollowUpAppointmentsCountLastMonth(DateTime referenceDate)
+    {
+        var lastMonth = referenceDate.AddMonths(-1);
+        return appointmentRepository.ReadAll()
+            .Count(a => a.IsFollowUp &&
+                       a.AppointmentDateTime.Month == lastMonth.Month &&
+                       a.AppointmentDateTime.Year == lastMonth.Year);
+    }
 
     /// <inheritdoc/>
-    public async Task<IList<PatientDto>> GetPatientsOver30WithMultipleDoctors()
+    public List<PatientDto> GetPatientsOver30WithMultipleDoctors()
     {
         var cutoffDate = DateTime.Today.AddYears(-30);
-        var appointments = await appointmentRepository.GetAllAsync();
+        var appointments = appointmentRepository.ReadAll();
 
         var patients = appointments
             .GroupBy(a => a.Patient.Id)
@@ -50,12 +57,14 @@ public class AnalyticsService(
     }
 
     /// <inheritdoc/>
-    public async Task<IList<AppointmentDto>> GetAppointmentsByRoomForCurrentMonth(int roomNumber, int year, int month)
+    public List<AppointmentDto> GetAppointmentsByRoomForCurrentMonth(int roomNumber, int year, int month)
     {
         var startDate = new DateTime(year, month, 1);
         var endDate = startDate.AddMonths(1).AddDays(-1);
 
-        var appointments = await appointmentRepository.GetByRoomAsync(roomNumber);
+        var appointments = appointmentRepository.ReadAll()
+            .Where(a => a.RoomNumber == roomNumber);
+
         var filteredAppointments = appointments
             .Where(a => a.AppointmentDateTime >= startDate && a.AppointmentDateTime <= endDate)
             .ToList();

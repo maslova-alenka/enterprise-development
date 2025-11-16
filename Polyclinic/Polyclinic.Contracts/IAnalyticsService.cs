@@ -4,21 +4,11 @@ using Polyclinic.Contracts.Patients;
 
 namespace Polyclinic.Contracts;
 
-
 public interface IAnalyticsService
 {
-
-    public Task<IList<DoctorDto>> GetDoctorsWithExperienceAtLeast(int minYears);
-
-
-    public Task<IList<PatientDto>> GetPatientsByDoctorOrderedByName(int doctorId);
-
-
-    public Task<int> GetFollowUpAppointmentsCountLastMonth(DateTime referenceDate);
-
-
-    public Task<IList<PatientDto>> GetPatientsOver30WithMultipleDoctors();
-
-
-    public Task<IList<AppointmentDto>> GetAppointmentsByRoomForCurrentMonth(int roomNumber, int year, int month);
+    public List<DoctorDto> GetDoctorsWithExperienceAtLeast(int minYears);
+    public List<PatientDto> GetPatientsByDoctorOrderedByName(int doctorId);
+    public int GetFollowUpAppointmentsCountLastMonth(DateTime referenceDate);
+    public List<PatientDto> GetPatientsOver30WithMultipleDoctors();
+    public List<AppointmentDto> GetAppointmentsByRoomForCurrentMonth(int roomNumber, int year, int month);
 }

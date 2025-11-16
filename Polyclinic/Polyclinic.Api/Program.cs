@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Polyclinic.Application;
 using Polyclinic.Application.Service;
-using Polyclinic.Application.Services;
 using Polyclinic.Contracts;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Doctors;
@@ -22,13 +21,12 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddSingleton<IRepository<Patient, int>, PatientInMemoryRepository>();
 builder.Services.AddSingleton<IRepository<Doctor, int>, DoctorInMemoryRepository>();
 builder.Services.AddSingleton<IRepository<Appointment, int>, AppointmentInMemoryRepository>();
-builder.Services.AddSingleton<IRepository<Specialization, int>, SpecializationInMemoryRepository>();
+//builder.Services.AddSingleton<IRepository<Specialization, int>, SpecializationInMemoryRepository>();
 
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<ISpecializationService, SpecializationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

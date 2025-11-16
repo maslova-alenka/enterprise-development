@@ -3,54 +3,59 @@ using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Models;
+using Polyclinic.Repositories;
 
+namespace Polyclinic.Application.Service;
 
-namespace Polyclinic.Application.Services;
-
-public class DoctorService(
-    IDoctorRepository doctorRepository,
-    IAppointmentRepository appointmentRepository,
-    IPatientRepository patientRepository,
-    IMapper mapper) : IDoctorService
+public class DoctorService(IRepository<Doctor, int> doctorRepository, IRepository<Appointment, int> appointmentRepository, IMapper mapper) : IDoctorService
 {
     /// <inheritdoc/>
-    public async Task<DoctorDto> Create(DoctorCreateUpdateDto dto)
+    public DoctorDto Create(DoctorCreateUpdateDto dto)
     {
         var newDoctor = mapper.Map<Doctor>(dto);
-        var result = await doctorRepository.CreateAsync(newDoctor);
-        return mapper.Map<DoctorDto>(result);
+        var lastDoctor = doctorRepository.ReadAll().OrderByDescending(d => d.Id).FirstOrDefault();
+        newDoctor.Id = (lastDoctor?.Id ?? 0) + 1;
+        doctorRepository.Create(newDoctor);
+        return mapper.Map<DoctorDto>(newDoctor);
     }
 
     /// <inheritdoc/>
-    public async Task<bool> Delete(int dtoId) =>
-        await doctorRepository.DeleteAsync(dtoId);
+    public bool Delete(int dtoId)
+    {
+        doctorRepository.Delete(dtoId);
+        return true;
+    }
 
     /// <inheritdoc/>
-    public async Task<DoctorDto?> Get(int dtoId) =>
-        mapper.Map<DoctorDto>(await doctorRepository.GetByIdAsync(dtoId));
+    public DoctorDto? Get(int dtoId) =>
+        mapper.Map<DoctorDto?>(doctorRepository.Read(dtoId));
 
     /// <inheritdoc/>
-    public async Task<IList<DoctorDto>> GetAll() =>
-        mapper.Map<List<DoctorDto>>(await doctorRepository.GetAllAsync());
+    public List<DoctorDto> GetAll() =>
+        mapper.Map<List<DoctorDto>>(doctorRepository.ReadAll());
 
     /// <inheritdoc/>
-    public async Task<DoctorDto> Update(DoctorCreateUpdateDto dto, int dtoId)
+    public DoctorDto Update(DoctorCreateUpdateDto dto, int dtoId)
     {
         var updateDoctor = mapper.Map<Doctor>(dto);
         updateDoctor.Id = dtoId;
-        var result = await doctorRepository.UpdateAsync(updateDoctor);
-        return mapper.Map<DoctorDto>(result);
+        doctorRepository.Update(updateDoctor);
+        return mapper.Map<DoctorDto>(updateDoctor);
     }
 
     /// <inheritdoc/>
-    public async Task<IList<AppointmentDto>> GetDoctorAppointments(int doctorId) =>
-        mapper.Map<IList<AppointmentDto>>(await appointmentRepository.GetByDoctorAsync(doctorId));
+    public List<AppointmentDto> GetDoctorAppointments(int doctorId) =>
+        mapper.Map<List<AppointmentDto>>(appointmentRepository.ReadAll().Where(a => a.Doctor.Id == doctorId).ToList());
 
     /// <inheritdoc/>
-    public async Task<IList<PatientDto>> GetDoctorPatients(int doctorId)
+    public List<PatientDto> GetDoctorPatients(int doctorId)
     {
-        var appointments = await appointmentRepository.GetByDoctorAsync(doctorId);
-        var patients = appointments.Select(a => a.Patient).Distinct().ToList();
-        return mapper.Map<IList<PatientDto>>(patients);
+        var patients = appointmentRepository.ReadAll()
+            .Where(a => a.Doctor.Id == doctorId)
+            .Select(a => a.Patient)
+            .Distinct()
+            .OrderBy(p => p.FullName)
+            .ToList();
+        return mapper.Map<List<PatientDto>>(patients);
     }
 }

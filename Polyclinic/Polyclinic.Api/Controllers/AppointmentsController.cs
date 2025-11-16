@@ -6,21 +6,19 @@ using Polyclinic.Contracts.Patients;
 
 namespace Polyclinic.Api.Controllers;
 
-
 public class AppointmentsController(IAppointmentService crudService, ILogger<AppointmentsController> logger)
     : CrudControllerBase<AppointmentDto, AppointmentCreateUpdateDto, int>(crudService, logger)
 {
-
     [HttpGet("{id}/patient")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult<PatientDto>> GetAppointmentPatient(int id)
+    public ActionResult<PatientDto> GetAppointmentPatient(int id)
     {
         logger.LogInformation("{method} method of {controller} is called with {id} parameter", nameof(GetAppointmentPatient), GetType().Name, id);
         try
         {
-            var res = await crudService.GetAppointmentPatient(id);
+            var res = crudService.GetAppointmentPatient(id);
             logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetAppointmentPatient), GetType().Name);
             return res != null ? Ok(res) : NoContent();
         }
@@ -35,12 +33,12 @@ public class AppointmentsController(IAppointmentService crudService, ILogger<App
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     [ProducesResponseType(500)]
-    public async Task<ActionResult<DoctorDto>> GetAppointmentDoctor(int id)
+    public ActionResult<DoctorDto> GetAppointmentDoctor(int id)
     {
         logger.LogInformation("{method} method of {controller} is called with {id} parameter", nameof(GetAppointmentDoctor), GetType().Name, id);
         try
         {
-            var res = await crudService.GetAppointmentDoctor(id);
+            var res = crudService.GetAppointmentDoctor(id);
             logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetAppointmentDoctor), GetType().Name);
             return res != null ? Ok(res) : NoContent();
         }
