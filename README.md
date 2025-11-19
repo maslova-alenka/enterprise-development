@@ -20,18 +20,55 @@
 ### Структура проекта
 ```
 Polyclinic/
-├── Polyclinic/
-│   └── PolyclinicModels/
-│       ├── Enums/
-│       │   ├── BloodType.cs
-│       │   ├── Gender.cs
-│       │   └── RhFactor.cs
-│       ├── Appointment.cs
-│       ├── Doctor.cs
-│       └── Patient.cs
-│
+├── Polyclinic.Models/
+| ├── Enums/
+│ | ├── BloodType.cs
+│ | ├── Gender.cs
+│ | └── RhFactor.cs
+│ ├── Doctor.cs
+│ ├── Patient.cs
+│ ├── Appointment.cs
+│ └── Specialization.cs
+├── Polyclinic.Contracts/
+│ ├── Doctors/
+│ │ ├── DoctorDto.cs
+│ │ ├── DoctorCreateUpdateDto.cs
+│ │ └── IDoctorService.cs
+│ ├── Patients/
+│ │ ├── PatientDto.cs
+│ │ ├── PatientCreateUpdateDto.cs
+│ │ └── IPatientService.cs
+│ ├── Appointments/
+│ │ ├── AppointmentDto.cs
+│ │ ├── AppointmentCreateUpdateDto.cs
+│ │ └── IAppointmentService.cs
+│ ├── Specializations/
+│ │ ├── SpecializationDto.cs
+│ │ ├── SpecializationCreateUpdateDto.cs
+│ │ └── ISpecializationService.cs
+│ ├── IAnalyticsService.cs
+│ └── IApplicationService.cs
+├── Polyclinic.Application.Service/
+│ ├── DoctorService.cs
+│ ├── PatientService.cs
+│ ├── AppointmentService.cs
+│ ├── SpecializationService.cs
+│ └── AnalyticsService.cs
+├── Polyclinic.Repositories/
+│ ├── IRepository.cs
+│ ├── DoctorInMemoryRepository.cs
+│ ├── PatientInMemoryRepository.cs
+│ ├── AppointmentInMemoryRepository.cs
+│ └── SpecializationInMemoryRepository.cs
+├── Polyclinic.Api.Controllers/
+│ ├── DoctorsController.cs
+│ ├── PatientsController.cs
+│ ├── AppointmentsController.cs
+│ ├── SpecializationsController.cs
+│ ├── AnalyticsController.cs
+│ └── CrudControllerBase.cs
 └── Polyclinic.Test/
-    ├── DataSeed.cs
+    └── DataSeed.cs
     └── PolyclinicTest.cs
 ```
 
@@ -41,3 +78,7 @@ Polyclinic/
 3) Вывести информацию о количестве повторных приемов пациентов за последний месяц.
 4) Вывести информацию о пациентах старше 30 лет, которые записаны на прием к нескольким врачам, упорядочить по дате рождения. 
 5) Вывести информацию о приемах за текущий месяц, проходящих в выбранном кабинете.
+
+# Лабораторная работа 2 - "Сервер"
+## Описание проекта
+Разработано серверное REST API приложение для автоматизации работы медицинской поликлиники с полным набором операций для управления сущностями системы и выполнения аналитических запросов.
