@@ -5,25 +5,31 @@ using Polyclinic.Contracts.Patients;
 
 namespace Polyclinic.Api.Controllers;
 
+/// <summary>
+/// Controller for managing patients and their related data
+/// </summary>
 public class PatientsController(IPatientService crudService, ILogger<PatientsController> logger)
     : CrudControllerBase<PatientDto, PatientCreateUpdateDto, int>(crudService, logger)
 {
+    /// <summary>
+    /// Retrieves all appointments for a specific patient
+    /// </summary>
+    /// <param name="id">Patient identifier</param>
+    /// <returns>List of patient's appointments</returns>
     [HttpGet("{id}/appointments")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     [ProducesResponseType(500)]
     public ActionResult<List<AppointmentDto>> GetPatientAppointments(int id)
     {
-        logger.LogInformation("{method} method of {controller} is called with {id} parameter", nameof(GetPatientAppointments), GetType().Name, id);
         try
         {
             var res = crudService.GetPatientAppointments(id);
-            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetPatientAppointments), GetType().Name);
             return res.Count > 0 ? Ok(res) : NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetPatientAppointments), GetType().Name, ex);
+            logger.LogError("Error in GetPatientAppointments: {Message}", ex.Message);
             return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
         }
     }

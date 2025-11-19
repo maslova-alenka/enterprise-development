@@ -7,9 +7,20 @@ using Polyclinic.Repositories;
 
 namespace Polyclinic.Application.Service;
 
+/// <summary>
+/// Service for managing appointments
+/// </summary>
+/// <param name="appointmentRepository">Appointment repository</param>
+/// <param name="patientRepository">Patient repository</param>
+/// <param name="doctorRepository">Doctor repository</param>
+/// <param name="mapper">Mapping profile</param>
 public class AppointmentService(IRepository<Appointment, int> appointmentRepository, IRepository<Patient, int> patientRepository, IRepository<Doctor, int> doctorRepository, IMapper mapper) : IAppointmentService
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Creates a new appointment
+    /// </summary>
+    /// <param name="dto">Data for creating the appointment</param>
+    /// <returns>Created appointment</returns>
     public AppointmentDto Create(AppointmentCreateUpdateDto dto)
     {
         var patient = patientRepository.Read(dto.PatientId);
@@ -33,23 +44,38 @@ public class AppointmentService(IRepository<Appointment, int> appointmentReposit
         return mapper.Map<AppointmentDto>(newAppointment);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Deletes an appointment by identifier
+    /// </summary>
+    /// <param name="dtoId">Appointment identifier</param>
+    /// <returns>True if deletion was successful</returns>
     public bool Delete(int dtoId)
     {
         appointmentRepository.Delete(dtoId);
         return true;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves an appointment by identifier
+    /// </summary>
+    /// <param name="dtoId">Appointment identifier</param>
+    /// <returns>Appointment if found</returns>
     public AppointmentDto? Get(int dtoId) =>
         mapper.Map<AppointmentDto?>(appointmentRepository.Read(dtoId));
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves all appointments
+    /// </summary>
+    /// <returns>List of all appointments</returns>
     public List<AppointmentDto> GetAll() =>
         mapper.Map<List<AppointmentDto>>(appointmentRepository.ReadAll());
 
-    /// <inheritdoc/>
-    /// <inheritdoc/>
+    /// <summary>
+    /// Updates an existing appointment
+    /// </summary>
+    /// <param name="dto">Data for updating the appointment</param>
+    /// <param name="dtoId">Appointment identifier</param>
+    /// <returns>Updated appointment</returns>
     public AppointmentDto Update(AppointmentCreateUpdateDto dto, int dtoId)
     {
         var existing = appointmentRepository.Read(dtoId) ?? throw new ArgumentException($"Appointment with ID {dtoId} not found");
@@ -69,14 +95,22 @@ public class AppointmentService(IRepository<Appointment, int> appointmentReposit
         return mapper.Map<AppointmentDto>(existing);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves patient information for a specific appointment
+    /// </summary>
+    /// <param name="appointmentId">Appointment identifier</param>
+    /// <returns>Patient details or null if not found</returns>
     public PatientDto? GetAppointmentPatient(int appointmentId)
     {
         var appointment = appointmentRepository.Read(appointmentId);
         return appointment == null ? null : mapper.Map<PatientDto>(appointment.Patient);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves doctor information for a specific appointment
+    /// </summary>
+    /// <param name="appointmentId">Appointment identifier</param>
+    /// <returns>Doctor details or null if not found</returns>
     public DoctorDto? GetAppointmentDoctor(int appointmentId)
     {
         var appointment = appointmentRepository.Read(appointmentId);

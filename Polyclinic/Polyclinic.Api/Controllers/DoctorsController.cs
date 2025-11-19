@@ -6,45 +6,54 @@ using Polyclinic.Contracts.Patients;
 
 namespace Polyclinic.Api.Controllers;
 
+/// <summary>
+/// Controller for managing doctors and their related data
+/// </summary>
 public class DoctorsController(IDoctorService crudService, ILogger<DoctorsController> logger)
     : CrudControllerBase<DoctorDto, DoctorCreateUpdateDto, int>(crudService, logger)
 {
+    /// <summary>
+    /// Retrieves all appointments for a specific doctor
+    /// </summary>
+    /// <param name="id">Doctor identifier</param>
+    /// <returns>List of doctor's appointments</returns>
     [HttpGet("{id}/appointments")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     [ProducesResponseType(500)]
     public ActionResult<List<AppointmentDto>> GetDoctorAppointments(int id)
     {
-        logger.LogInformation("{method} method of {controller} is called with {id} parameter", nameof(GetDoctorAppointments), GetType().Name, id);
         try
         {
             var res = crudService.GetDoctorAppointments(id);
-            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetDoctorAppointments), GetType().Name);
             return res.Count > 0 ? Ok(res) : NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetDoctorAppointments), GetType().Name, ex);
+            logger.LogError("Error in GetDoctorAppointments: {Message}", ex.Message);
             return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
         }
     }
 
+    /// <summary>
+    /// Retrieves all patients for a specific doctor
+    /// </summary>
+    /// <param name="id">Doctor identifier</param>
+    /// <returns>List of doctor's patients</returns>
     [HttpGet("{id}/patients")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
     [ProducesResponseType(500)]
     public ActionResult<List<PatientDto>> GetDoctorPatients(int id)
     {
-        logger.LogInformation("{method} method of {controller} is called with {id} parameter", nameof(GetDoctorPatients), GetType().Name, id);
         try
         {
             var res = crudService.GetDoctorPatients(id);
-            logger.LogInformation("{method} method of {controller} executed successfully", nameof(GetDoctorPatients), GetType().Name);
             return res.Count > 0 ? Ok(res) : NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogError("An exception happened during {method} method of {controller}: {@exception}", nameof(GetDoctorPatients), GetType().Name, ex);
+            logger.LogError("Error in GetDoctorPatients: {Message}", ex.Message);
             return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
         }
     }

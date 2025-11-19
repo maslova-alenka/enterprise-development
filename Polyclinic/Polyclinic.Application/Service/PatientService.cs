@@ -6,9 +6,19 @@ using Polyclinic.Repositories;
 
 namespace Polyclinic.Application.Service;
 
+/// <summary>
+/// Service for managing patients
+/// </summary>
+/// <param name="patientRepository">Patient repository</param>
+/// <param name="appointmentRepository">Appointment repository</param>
+/// <param name="mapper">Mapping profile</param>
 public class PatientService(IRepository<Patient, int> patientRepository, IRepository<Appointment, int> appointmentRepository, IMapper mapper) : IPatientService
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Creates a new patient
+    /// </summary>
+    /// <param name="dto">Data for creating the patient</param>
+    /// <returns>Created patient</returns>
     public PatientDto Create(PatientCreateUpdateDto dto)
     {
         var newPatient = mapper.Map<Patient>(dto);
@@ -19,22 +29,38 @@ public class PatientService(IRepository<Patient, int> patientRepository, IReposi
         return mapper.Map<PatientDto>(newPatient);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Deletes a patient by identifier
+    /// </summary>
+    /// <param name="dtoId">Patient identifier</param>
+    /// <returns>True if deletion was successful</returns>
     public bool Delete(int dtoId)
     {
         patientRepository.Delete(dtoId);
         return true;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves a patient by identifier
+    /// </summary>
+    /// <param name="dtoId">Patient identifier</param>
+    /// <returns>Patient if found</returns>
     public PatientDto? Get(int dtoId) =>
         mapper.Map<PatientDto?>(patientRepository.Read(dtoId));
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves all patients
+    /// </summary>
+    /// <returns>List of all patients</returns>
     public List<PatientDto> GetAll() =>
         mapper.Map<List<PatientDto>>(patientRepository.ReadAll());
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Updates an existing patient
+    /// </summary>
+    /// <param name="dto">Data for updating the patient</param>
+    /// <param name="dtoId">Patient identifier</param>
+    /// <returns>Updated patient</returns>
     public PatientDto Update(PatientCreateUpdateDto dto, int dtoId)
     {
         var updatePatient = mapper.Map<Patient>(dto);
@@ -43,7 +69,11 @@ public class PatientService(IRepository<Patient, int> patientRepository, IReposi
         return mapper.Map<PatientDto>(updatePatient);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Retrieves all appointments for a specific patient
+    /// </summary>
+    /// <param name="patientId">Patient identifier</param>
+    /// <returns>List of patient's appointments</returns>
     public List<AppointmentDto> GetPatientAppointments(int patientId) =>
         mapper.Map<List<AppointmentDto>>(appointmentRepository.ReadAll().Where(a => a.Patient.Id == patientId).ToList());
 }

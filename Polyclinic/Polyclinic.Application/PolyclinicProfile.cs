@@ -23,25 +23,8 @@ public class PolyclinicProfile : Profile
         CreateMap<Doctor, DoctorDto>()
             .ForMember(destinationMember => destinationMember.SpecializationName, opt => opt.MapFrom(src => src.Specialization.Name));
         CreateMap<DoctorCreateUpdateDto, Doctor>();
-        ////CreateMap<DoctorCreateUpdateDto, Doctor>()
-        ////    .ForMember(destinationMember => destinationMember.Specialization, opt => opt.MapFrom(src => src.Specialization.Id));
-        //CreateMap<Doctor, DoctorDto>()
-        //    .ConstructUsing(src => new DoctorDto(
-        //        src.Id,
-        //        src.PassportNumber,
-        //        src.FullName,
-        //        src.BirthYear,
-        //        src.Specialization.Id,          
-        //        src.Specialization.Name,        
-        //        src.ExperienceYears
-        //    ));
 
         // Appointments
-        //CreateMap<Appointment, AppointmentDto>()
-        //    .ForMember(destinationMember => destinationMember.PatientName, opt => opt.MapFrom(src => src.Patient.FullName))
-        //    .ForMember(destinationMember => destinationMember.DoctorName, opt => opt.MapFrom(src => src.Doctor.FullName));
-        //CreateMap<AppointmentCreateUpdateDto, Appointment>();
-
         CreateMap<Appointment, AppointmentDto>()
             .ConstructUsing(src => new AppointmentDto(
                 src.Id,
