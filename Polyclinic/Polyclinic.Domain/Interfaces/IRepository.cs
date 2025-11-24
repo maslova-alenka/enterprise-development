@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.Repositories;
+﻿namespace Polyclinic.Domain.Interfaces;
 
 /// <summary>
 /// Generic repository interface for data access operations

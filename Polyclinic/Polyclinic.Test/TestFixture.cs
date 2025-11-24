@@ -1,4 +1,5 @@
-﻿using Polyclinic.Models;
+﻿using Polyclinic.Domain.Data;
+using Polyclinic.Domain.Models;
 
 namespace Polyclinic.Test;
 

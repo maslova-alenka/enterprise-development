@@ -3,8 +3,8 @@ using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Specializations;
-using Polyclinic.Models;
-using Polyclinic.Models.Enums;
+using Polyclinic.Domain.Models;
+using Polyclinic.Domain.Enums;
 
 namespace Polyclinic.Application;
 

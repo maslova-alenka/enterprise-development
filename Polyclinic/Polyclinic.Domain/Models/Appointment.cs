@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.Models;
+﻿namespace Polyclinic.Domain.Models;
 
 /// <summary>
 /// Represents a medical appointment in the polyclinic system.

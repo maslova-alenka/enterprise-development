@@ -6,7 +6,7 @@ using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Specializations;
-using Polyclinic.Models;
+using Polyclinic.Domain.Models;
 using Polyclinic.Repositories;
 using System.Reflection;
 

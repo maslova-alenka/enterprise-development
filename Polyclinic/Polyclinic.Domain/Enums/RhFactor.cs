@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.Models.Enums;
+﻿namespace Polyclinic.Domain.Enums;
 
 /// <summary>
 /// Rh factor blood classification

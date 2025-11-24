@@ -1,7 +1,7 @@
-﻿using Polyclinic.Models;
-using Polyclinic.Models.Enums;
+﻿using Polyclinic.Domain.Enums;
+using Polyclinic.Domain.Models;
 
-namespace Polyclinic.Test;
+namespace Polyclinic.Domain.Data;
 
 /// <summary>
 /// Test data seed for polyclinic system

@@ -3,7 +3,7 @@ using Polyclinic.Contracts;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Appointments;
-using Polyclinic.Models;
+using Polyclinic.Domain.Models;
 using Polyclinic.Repositories;
 
 namespace Polyclinic.Application.Service;

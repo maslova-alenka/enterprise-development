@@ -1,5 +1,4 @@
-﻿namespace Polyclinic.Models;
-
+﻿namespace Polyclinic.Domain.Models;
 /// <summary>
 /// Doctor specialization reference data
 /// </summary>

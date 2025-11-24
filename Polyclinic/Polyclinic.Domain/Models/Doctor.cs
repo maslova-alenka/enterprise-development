@@ -1,4 +1,4 @@
-﻿namespace Polyclinic.Models;
+﻿namespace Polyclinic.Domain.Models;
 
 /// <summary>
 /// Medical doctor information

@@ -1,6 +1,6 @@
-﻿using Polyclinic.Models.Enums;
+﻿using Polyclinic.Domain.Enums;
 
-namespace Polyclinic.Models;
+namespace Polyclinic.Domain.Models;
 
 /// <summary>
 /// Patient personal and medical information

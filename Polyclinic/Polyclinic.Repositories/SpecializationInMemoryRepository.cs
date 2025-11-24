@@ -1,5 +1,6 @@
-﻿using Polyclinic.Models;
-using Polyclinic.Test;
+﻿using Polyclinic.Domain.Data;
+using Polyclinic.Domain.Interfaces;
+using Polyclinic.Domain.Models;
 
 namespace Polyclinic.Repositories;
 
