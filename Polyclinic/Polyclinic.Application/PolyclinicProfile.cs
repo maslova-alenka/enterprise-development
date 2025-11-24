@@ -19,7 +19,7 @@ public class PolyclinicProfile : Profile
             .ForMember(destinationMember => destinationMember.BloodType, opt => opt.MapFrom(src => Enum.Parse<BloodType>(src.BloodType)))
             .ForMember(destinationMember => destinationMember.RhFactor, opt => opt.MapFrom(src => Enum.Parse<RhFactor>(src.RhFactor)));
 
-        // Doctors
+        //Doctors
         CreateMap<Doctor, DoctorDto>()
             .ForMember(destinationMember => destinationMember.SpecializationName, opt => opt.MapFrom(src => src.Specialization.Name));
         CreateMap<DoctorCreateUpdateDto, Doctor>();

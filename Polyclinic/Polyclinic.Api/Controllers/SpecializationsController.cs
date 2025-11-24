@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Polyclinic.Contracts.Specializations;
+﻿using Polyclinic.Contracts.Specializations;
 
 namespace Polyclinic.Api.Controllers;
 

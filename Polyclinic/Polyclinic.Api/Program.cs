@@ -7,7 +7,8 @@ using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Specializations;
 using Polyclinic.Domain.Models;
-using Polyclinic.Repositories;
+using Polyclinic.Domain.Interfaces;
+using Polyclinic.Repositories.InMemory;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

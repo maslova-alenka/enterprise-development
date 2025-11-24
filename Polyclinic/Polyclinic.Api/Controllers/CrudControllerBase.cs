@@ -25,11 +25,24 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     /// <returns>Created entity</returns>
     [HttpPost]
     [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public ActionResult<TDto> Create(TCreateUpdateDto newDto)
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    Message = "Validation failed",
+                    Errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList()
+                });
+            }
+
             var res = appService.Create(newDto);
             return CreatedAtAction(nameof(Get), new { id = res.GetType().GetProperty("Id")?.GetValue(res) }, res);
         }
@@ -48,11 +61,24 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     /// <returns>Updated entity</returns>
     [HttpPut("{id}")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public ActionResult<TDto> Edit(TKey id, TCreateUpdateDto newDto)
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new
+                {
+                    Message = "Validation failed",
+                    Errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList()
+                });
+            }
+
             var res = appService.Update(newDto, id);
             return Ok(res);
         }

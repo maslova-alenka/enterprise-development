@@ -24,7 +24,7 @@ public interface IRepository<T, TKey>
     /// </summary>
     /// <param name="entityId">Entity identifier</param>
     /// <returns>Entity if found</returns>
-    T Read(TKey entityId);
+    T? Read(TKey entityId);
 
     /// <summary>
     /// Retrieves all entities

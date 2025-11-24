@@ -3,7 +3,7 @@ using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Domain.Models;
-using Polyclinic.Repositories;
+using Polyclinic.Domain.Interfaces;
 
 namespace Polyclinic.Application.Service;
 
@@ -12,6 +12,7 @@ namespace Polyclinic.Application.Service;
 /// </summary>
 /// <param name="doctorRepository">Doctor repository</param>
 /// <param name="appointmentRepository">Appointment repository</param>
+/// /// <param name="specializationRepository">Appointment repository</param>
 /// <param name="mapper">Mapping profile</param>
 public class DoctorService(IRepository<Doctor, int> doctorRepository, IRepository<Appointment, int> appointmentRepository, IMapper mapper) : IDoctorService
 {

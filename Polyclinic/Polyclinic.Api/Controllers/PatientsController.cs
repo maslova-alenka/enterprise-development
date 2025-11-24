@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Patients;
 

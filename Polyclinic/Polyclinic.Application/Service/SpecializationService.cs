@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Polyclinic.Contracts.Specializations;
 using Polyclinic.Domain.Models;
-using Polyclinic.Repositories;
+using Polyclinic.Domain.Interfaces;
 
 namespace Polyclinic.Application.Service;
 
