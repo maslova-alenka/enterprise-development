@@ -107,6 +107,39 @@ public class DataSeed
 
         },
 
+        new Doctor
+        {
+            Id = 8,
+            PassportNumber = "7777 777777",
+            FullName = "Орехова Антонина Григорьева",
+            BirthYear = 1987,
+            Specialization = Specializations[9],
+            ExperienceYears = 8
+
+        },
+
+        new Doctor
+        {
+            Id = 9,
+            PassportNumber = "9999 999999",
+            FullName = "Малинин Роберт Иванович",
+            BirthYear = 1969,
+            Specialization = Specializations[4],
+            ExperienceYears = 18
+
+        },
+
+        new Doctor
+        {
+            Id = 10,
+            PassportNumber = "1010 101010",
+            FullName = "Пашкова Мария Романовна",
+            BirthYear = 1980,
+            Specialization = Specializations[3],
+            ExperienceYears = 15
+
+        },
+
     ];
 
     /// <summary>
