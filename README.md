@@ -20,56 +20,73 @@
 ### Структура проекта
 ```
 Polyclinic/
-├── Polyclinic.Models/
-| ├── Enums/
-│ | ├── BloodType.cs
-│ | ├── Gender.cs
-│ | └── RhFactor.cs
-│ ├── Doctor.cs
-│ ├── Patient.cs
-│ ├── Appointment.cs
-│ └── Specialization.cs
+├── Polyclinic.Api/
+│   ├── Controllers/
+│   │   ├── AnalyticsController.cs
+│   │   ├── AppointmentsController.cs
+│   │   ├── CrudControllerBase.cs
+│   │   ├── DoctorsController.cs
+│   │   ├── PatientsController.cs
+│   │   └── SpecializationsController.cs
+│   ├── Program.cs
+│   ├── Properties/
+│   │   └── launchSettings.json
+│   ├── appsettings.json
+│   └── appsettings.Development.json
+│
+├── Polyclinic.Application/
+│   ├──Service/
+│   │   ├── AnalyticsService.cs
+│   │   ├── AppointmentService.cs
+│   │   ├── DoctorService.cs
+│   │   ├── PatientService.cs
+│   │   ├── SpecializationService.cs
+│   └── PolyclinicProfile.cs
+│
 ├── Polyclinic.Contracts/
-│ ├── Doctors/
-│ │ ├── DoctorDto.cs
-│ │ ├── DoctorCreateUpdateDto.cs
-│ │ └── IDoctorService.cs
-│ ├── Patients/
-│ │ ├── PatientDto.cs
-│ │ ├── PatientCreateUpdateDto.cs
-│ │ └── IPatientService.cs
-│ ├── Appointments/
-│ │ ├── AppointmentDto.cs
-│ │ ├── AppointmentCreateUpdateDto.cs
-│ │ └── IAppointmentService.cs
-│ ├── Specializations/
-│ │ ├── SpecializationDto.cs
-│ │ ├── SpecializationCreateUpdateDto.cs
-│ │ └── ISpecializationService.cs
-│ ├── IAnalyticsService.cs
-│ └── IApplicationService.cs
-├── Polyclinic.Application.Service/
-│ ├── DoctorService.cs
-│ ├── PatientService.cs
-│ ├── AppointmentService.cs
-│ ├── SpecializationService.cs
-│ └── AnalyticsService.cs
-├── Polyclinic.Repositories/
-│ ├── IRepository.cs
-│ ├── DoctorInMemoryRepository.cs
-│ ├── PatientInMemoryRepository.cs
-│ ├── AppointmentInMemoryRepository.cs
-│ └── SpecializationInMemoryRepository.cs
-├── Polyclinic.Api.Controllers/
-│ ├── DoctorsController.cs
-│ ├── PatientsController.cs
-│ ├── AppointmentsController.cs
-│ ├── SpecializationsController.cs
-│ ├── AnalyticsController.cs
-│ └── CrudControllerBase.cs
+│   ├── Appointments/
+│   │   ├── AppointmentDto.cs
+│   │   ├── AppointmentCreateUpdateDto.cs
+│   │   └── IAppointmentService.cs
+│   ├── Doctors/
+│   │   ├── DoctorDto.cs
+│   │   ├── DoctorCreateUpdateDto.cs
+│   │   └── IDoctorService.cs
+│   ├── Patients/
+│   │   ├── PatientDto.cs
+│   │   ├── PatientCreateUpdateDto.cs
+│   │   └── IPatientService.cs
+│   ├── Specializations/
+│   │   ├── SpecializationDto.cs
+│   │   ├── SpecializationCreateUpdateDto.cs
+│   │   └── ISpecializationService.cs
+│   ├── IAnalyticsService.cs
+│   └── IApplicationService.cs
+│
+├── Polyclinic.Domain/
+│   ├── Models/
+│   │   ├── Appointment.cs
+│   │   ├── Doctor.cs
+│   │   ├── Patient.cs
+│   │   └── Specialization.cs
+│   ├── Enums/
+│   │   ├── BloodType.cs
+│   │   ├── Gender.cs
+│   │   └── RhFactor.cs
+│   ├── Interfaces/
+│   │   └── IRepository.cs
+│   └── Data/
+│       └── DataSeed.cs
+│
+├── Polyclinic.Repositories.InMemory/
+│   ├── AppointmentInMemoryRepository.cs
+│   ├── DoctorInMemoryRepository.cs
+│   ├── PatientInMemoryRepository.cs
+│   └── SpecializationInMemoryRepository.cs
+│
 └── Polyclinic.Test/
-    └── DataSeed.cs
-    └── PolyclinicTest.cs
+    ├── PolyclinicTest.cs
+    └── TestFixture.cs
 ```
 
 ### Тесты
@@ -81,4 +98,7 @@ Polyclinic/
 
 # Лабораторная работа 2 - "Сервер"
 ## Описание проекта
-Разработано серверное REST API приложение для автоматизации работы медицинской поликлиники с полным набором операций для управления сущностями системы и выполнения аналитических запросов.
+В рамках лабораторной работы было разработано серверное ASP.NET Core Web API приложение для управления медицинскими данными поликлиники. 
+Реализованы полные CRUD-операции для сущностей: врачи, пациенты, специализации и записи на приём. 
+Данные хранятся в памяти приложения с использованием коллекций и тестовых данных. 
+Приложение построено с использованием AutoMapper, Swagger и обеспечивает валидацию входных данных.

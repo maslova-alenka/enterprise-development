@@ -1,6 +1,4 @@
-﻿using Polyclinic.Contracts;
-
-namespace Polyclinic.Contracts.Specializations;
+﻿namespace Polyclinic.Contracts.Specializations;
 
 /// <summary>
 /// Service interface for managing specializations

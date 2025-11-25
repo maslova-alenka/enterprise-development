@@ -1,5 +1,4 @@
-﻿using Polyclinic.Contracts;
-using Polyclinic.Contracts.Appointments;
+﻿using Polyclinic.Contracts.Appointments;
 
 namespace Polyclinic.Contracts.Patients;
 
