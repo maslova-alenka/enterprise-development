@@ -11,7 +11,7 @@ public class PolyclinicTest(TestFixture fixture) : IClassFixture<TestFixture>
     [Fact]
     public void GetDoctorsWithExperienceAtLeast10Years()
     {
-        List<int> expectedDoctors = [1, 2, 3, 5, 6, 7];
+        List<int> expectedDoctors = [1, 2, 3, 5, 6, 7, 9, 10];
 
         var experiencedDoctors = fixture.Doctors
             .Where(d => d.ExperienceYears >= 10)
