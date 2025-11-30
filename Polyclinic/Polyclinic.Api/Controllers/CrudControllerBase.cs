@@ -48,8 +48,8 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in Create: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in Create");
+            return StatusCode(500, "Failed to create entity");
         }
     }
 
@@ -84,8 +84,8 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in Edit: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in Edit");
+            return StatusCode(500, "Failed to update entity");
         }
     }
 
@@ -97,6 +97,7 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     [HttpDelete("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public ActionResult Delete(TKey id)
     {
@@ -107,8 +108,8 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in Delete: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in Delete");
+            return StatusCode(500, "Failed to delete entity");
         }
     }
 
@@ -128,8 +129,8 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetAll: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetAll");
+            return StatusCode(500, "Failed to get entities list");
         }
     }
 
@@ -141,6 +142,7 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public ActionResult<TDto> Get(TKey id)
     {
@@ -151,8 +153,8 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in Get: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in Get");
+            return StatusCode(500, "Failed to get entity");
         }
     }
 }

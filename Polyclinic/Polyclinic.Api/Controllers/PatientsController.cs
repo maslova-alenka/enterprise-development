@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Patients;
+using System.ComponentModel.DataAnnotations;
 
 namespace Polyclinic.Api.Controllers;
 
@@ -18,8 +19,10 @@ public class PatientsController(IPatientService crudService, ILogger<PatientsCon
     [HttpGet("{id}/appointments")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public ActionResult<List<AppointmentDto>> GetPatientAppointments(int id)
+    public ActionResult<List<AppointmentDto>> GetPatientAppointments(
+        [Range(1, int.MaxValue, ErrorMessage = "Patient ID must be positive")] int id)
     {
         try
         {
@@ -28,8 +31,8 @@ public class PatientsController(IPatientService crudService, ILogger<PatientsCon
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetPatientAppointments: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetPatientAppointments");
+            return StatusCode(500, "Failed to get patient appointments");
         }
     }
 }

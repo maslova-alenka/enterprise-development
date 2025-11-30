@@ -2,6 +2,7 @@
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
+using System.ComponentModel.DataAnnotations;
 
 namespace Polyclinic.Api.Controllers;
 
@@ -19,8 +20,10 @@ public class AppointmentsController(IAppointmentService crudService, ILogger<App
     [HttpGet("{id}/patient")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public ActionResult<PatientDto> GetAppointmentPatient(int id)
+    public ActionResult<PatientDto> GetAppointmentPatient(
+        [Range(1, int.MaxValue, ErrorMessage = "Appointment ID must be positive")] int id)
     {
         try
         {
@@ -29,8 +32,8 @@ public class AppointmentsController(IAppointmentService crudService, ILogger<App
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetAppointmentPatient: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetAppointmentPatient");
+            return StatusCode(500, "Failed to get appointment patient");
         }
     }
 
@@ -42,8 +45,10 @@ public class AppointmentsController(IAppointmentService crudService, ILogger<App
     [HttpGet("{id}/doctor")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public ActionResult<DoctorDto> GetAppointmentDoctor(int id)
+    public ActionResult<DoctorDto> GetAppointmentDoctor(
+        [Range(1, int.MaxValue, ErrorMessage = "Appointment ID must be positive")] int id)
     {
         try
         {
@@ -52,8 +57,8 @@ public class AppointmentsController(IAppointmentService crudService, ILogger<App
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetAppointmentDoctor: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetAppointmentDoctor");
+            return StatusCode(500, "Failed to get appointment doctor");
         }
     }
 }

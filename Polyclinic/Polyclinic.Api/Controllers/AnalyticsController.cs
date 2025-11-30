@@ -3,6 +3,7 @@ using Polyclinic.Contracts;
 using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
+using System.ComponentModel.DataAnnotations;
 
 namespace Polyclinic.Api.Controllers;
 
@@ -19,8 +20,10 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [HttpGet("doctors/experienced/{minYears}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public ActionResult<List<DoctorDto>> GetDoctorsWithExperienceAtLeast(int minYears)
+    public ActionResult<List<DoctorDto>> GetDoctorsWithExperienceAtLeast(
+        [Range(0, 70, ErrorMessage = "Experience years must be between 0 and 70")] int minYears)
     {
         try
         {
@@ -29,8 +32,8 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetDoctorsWithExperienceAtLeast: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetDoctorsWithExperienceAtLeast");
+            return StatusCode(500, "Failed to get doctors list");
         }
     }
 
@@ -42,8 +45,10 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [HttpGet("doctors/{doctorId}/patients")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public ActionResult<List<PatientDto>> GetPatientsByDoctorOrderedByName(int doctorId)
+    public ActionResult<List<PatientDto>> GetPatientsByDoctorOrderedByName(
+        [Range(1, int.MaxValue, ErrorMessage = "Doctor ID must be positive")] int doctorId)
     {
         try
         {
@@ -52,8 +57,8 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetPatientsByDoctorOrderedByName: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetPatientsByDoctorOrderedByName");
+            return StatusCode(500, "Failed to get patients list");
         }
     }
 
@@ -74,8 +79,8 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetFollowUpAppointmentsCountLastMonth: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetFollowUpAppointmentsCountLastMonth");
+            return StatusCode(500, "Failed to get follow-up appointments count");
         }
     }
 
@@ -96,8 +101,8 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetPatientsOver30WithMultipleDoctors: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetPatientsOver30WithMultipleDoctors");
+            return StatusCode(500, "Failed to get patients list");
         }
     }
 
@@ -111,9 +116,12 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
     [HttpGet("appointments/room/{roomNumber}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public ActionResult<List<AppointmentDto>> GetAppointmentsByRoomForCurrentMonth(
-        int roomNumber, [FromQuery] int year, [FromQuery] int month)
+        [Range(1, 1000, ErrorMessage = "Room number must be between 1 and 1000")] int roomNumber,
+        [FromQuery] int year,
+        [FromQuery] int month)
     {
         try
         {
@@ -122,8 +130,8 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
         }
         catch (Exception ex)
         {
-            logger.LogError("Error in GetAppointmentsByRoomForCurrentMonth: {Message}", ex.Message);
-            return StatusCode(500, $"{ex.Message}\n\r{ex.InnerException?.Message}");
+            logger.LogError(ex, "Error in GetAppointmentsByRoomForCurrentMonth");
+            return StatusCode(500, "Failed to get appointments list");
         }
     }
 }

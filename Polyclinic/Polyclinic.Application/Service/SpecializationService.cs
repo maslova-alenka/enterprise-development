@@ -21,8 +21,8 @@ public class SpecializationService(IRepository<Specialization, int> specializati
     public SpecializationDto Create(SpecializationCreateUpdateDto dto)
     {
         var newSpecialization = mapper.Map<Specialization>(dto);
-        var lastSpecialization = specializationRepository.ReadAll().OrderByDescending(s => s.Id).FirstOrDefault();
-        newSpecialization.Id = (lastSpecialization?.Id ?? 0) + 1;
+        var lastSpecializationId = specializationRepository.ReadAll().Max(s => s.Id);
+        newSpecialization.Id = lastSpecializationId + 1;
         specializationRepository.Create(newSpecialization);
         return mapper.Map<SpecializationDto>(newSpecialization);
     }

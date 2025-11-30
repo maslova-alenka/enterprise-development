@@ -28,15 +28,14 @@ public class DoctorService(
     /// <exception cref="ArgumentException">Thrown when specialization with specified ID is not found</exception>
     public DoctorDto Create(DoctorCreateUpdateDto dto)
     {
-        var specialization = specializationRepository.Read(dto.SpecializationId);
-        if (specialization == null)
-            throw new ArgumentException($"Specialization with ID {dto.SpecializationId} not found");
+        var specialization = specializationRepository.Read(dto.SpecializationId)
+           ?? throw new ArgumentException($"Specialization with ID {dto.SpecializationId} not found");
 
         var newDoctor = mapper.Map<Doctor>(dto);
-        newDoctor.Specialization = specialization; 
+        newDoctor.Specialization = specialization;
 
-        var lastDoctor = doctorRepository.ReadAll().OrderByDescending(d => d.Id).FirstOrDefault();
-        newDoctor.Id = (lastDoctor?.Id ?? 0) + 1;
+        var lastDoctorId = doctorRepository.ReadAll().Max(d => d.Id);
+        newDoctor.Id = lastDoctorId + 1;
 
         doctorRepository.Create(newDoctor);
         return mapper.Map<DoctorDto>(newDoctor);
@@ -77,13 +76,11 @@ public class DoctorService(
     /// <exception cref="ArgumentException">Thrown when doctor or specialization with specified ID is not found</exception>
     public DoctorDto Update(DoctorCreateUpdateDto dto, int dtoId)
     {
-        var specialization = specializationRepository.Read(dto.SpecializationId);
-        if (specialization == null)
-            throw new ArgumentException($"Specialization with ID {dto.SpecializationId} not found");
+        var specialization = specializationRepository.Read(dto.SpecializationId)
+           ?? throw new ArgumentException($"Specialization with ID {dto.SpecializationId} not found");
 
-        var existingDoctor = doctorRepository.Read(dtoId);
-        if (existingDoctor == null)
-            throw new ArgumentException($"Doctor with ID {dtoId} not found");
+        var existingDoctor = doctorRepository.Read(dtoId)
+          ?? throw new ArgumentException($"Doctor with ID {dtoId} not found");
 
         existingDoctor.PassportNumber = dto.PassportNumber;
         existingDoctor.FullName = dto.FullName;

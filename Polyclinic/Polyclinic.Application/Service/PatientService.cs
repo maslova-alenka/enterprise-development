@@ -22,8 +22,8 @@ public class PatientService(IRepository<Patient, int> patientRepository, IReposi
     public PatientDto Create(PatientCreateUpdateDto dto)
     {
         var newPatient = mapper.Map<Patient>(dto);
-        var lastPatient = patientRepository.ReadAll().OrderByDescending(p => p.Id).FirstOrDefault();
-        newPatient.Id = (lastPatient?.Id ?? 0) + 1;
+        var lastPatientId = patientRepository.ReadAll().Max(p => p.Id);
+        newPatient.Id = lastPatientId + 1;
 
         patientRepository.Create(newPatient);
         return mapper.Map<PatientDto>(newPatient);
@@ -63,6 +63,9 @@ public class PatientService(IRepository<Patient, int> patientRepository, IReposi
     /// <returns>Updated patient</returns>
     public PatientDto Update(PatientCreateUpdateDto dto, int dtoId)
     {
+        var existingPatient = patientRepository.Read(dtoId)
+        ?? throw new ArgumentException($"Patient with ID {dtoId} not found");
+
         var updatePatient = mapper.Map<Patient>(dto);
         updatePatient.Id = dtoId;
         patientRepository.Update(updatePatient);
