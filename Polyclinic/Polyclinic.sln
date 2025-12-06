@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyclinic.Domain", "Polycl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyclinic.Repositories.InMemory", "Polyclinic.Repositories.InMemory\Polyclinic.Repositories.InMemory.csproj", "{F3A78010-6A4C-4748-BDE1-B0708433175D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyclinic.Infrastructure.EfCore", "Polyclinic.Infrastructure.EfCore\Polyclinic.Infrastructure.EfCore.csproj", "{B2484D87-91CC-4E1B-AB30-ABA26C7DFE86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyclinic.ServiceDefaults", "Polyclinic.ServiceDefaults\Polyclinic.ServiceDefaults.csproj", "{7575E981-B5A4-46C2-8F16-B39D1B9455F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyclinic.AppHost", "Polyclinic.AppHost\Polyclinic.AppHost.csproj", "{D8311524-F363-488D-9285-A4CB6DE4D7A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +51,18 @@ Global
 		{F3A78010-6A4C-4748-BDE1-B0708433175D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3A78010-6A4C-4748-BDE1-B0708433175D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3A78010-6A4C-4748-BDE1-B0708433175D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2484D87-91CC-4E1B-AB30-ABA26C7DFE86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2484D87-91CC-4E1B-AB30-ABA26C7DFE86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2484D87-91CC-4E1B-AB30-ABA26C7DFE86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2484D87-91CC-4E1B-AB30-ABA26C7DFE86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7575E981-B5A4-46C2-8F16-B39D1B9455F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7575E981-B5A4-46C2-8F16-B39D1B9455F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7575E981-B5A4-46C2-8F16-B39D1B9455F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7575E981-B5A4-46C2-8F16-B39D1B9455F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8311524-F363-488D-9285-A4CB6DE4D7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8311524-F363-488D-9285-A4CB6DE4D7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8311524-F363-488D-9285-A4CB6DE4D7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8311524-F363-488D-9285-A4CB6DE4D7A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
