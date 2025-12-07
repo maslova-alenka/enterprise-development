@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Polyclinic.Application;
 using Polyclinic.Application.Service;
 using Polyclinic.Contracts;
@@ -6,12 +7,21 @@ using Polyclinic.Contracts.Appointments;
 using Polyclinic.Contracts.Doctors;
 using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Specializations;
-using Polyclinic.Domain.Models;
 using Polyclinic.Domain.Interfaces;
-using Polyclinic.Repositories.InMemory;
+using Polyclinic.Domain.Models;
+using Polyclinic.Infrastructure.EfCore; 
+using Polyclinic.Infrastructure.EfCore.Repositories;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDbContext<PolyclinicDbContext>(options => 
+{
+    var connectionString = builder.Configuration.GetConnectionString("mysqldb");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+
 
 var mapperConfig = new MapperConfiguration(
     config => config.AddProfile(new PolyclinicProfile()),
@@ -19,10 +29,10 @@ var mapperConfig = new MapperConfiguration(
 IMapper? mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-builder.Services.AddSingleton<IRepository<Patient, int>, PatientInMemoryRepository>();
-builder.Services.AddSingleton<IRepository<Doctor, int>, DoctorInMemoryRepository>();
-builder.Services.AddSingleton<IRepository<Appointment, int>, AppointmentInMemoryRepository>();
-builder.Services.AddSingleton<IRepository<Specialization, int>, SpecializationInMemoryRepository>();
+builder.Services.AddScoped<IRepository<Doctor, int>, DoctorEfCoreRepository>();
+builder.Services.AddScoped<IRepository<Patient, int>, PatientEfCoreRepository>();
+builder.Services.AddScoped<IRepository<Appointment, int>, AppointmentEfCoreRepository>();
+builder.Services.AddScoped<IRepository<Specialization, int>, SpecializationEfCoreRepository>();
 
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
@@ -56,9 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Polyclinic.Domain.Enums;
 using Polyclinic.Domain.Models;
 
 namespace Polyclinic.Infrastructure.EfCore;
@@ -12,7 +13,6 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
         modelBuilder.Entity<Specialization>(builder =>
         {
             builder.HasKey(s => s.Id);
@@ -34,7 +34,6 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
             );
         });
 
-
         modelBuilder.Entity<Doctor>(builder =>
         {
             builder.HasKey(d => d.Id);
@@ -53,11 +52,12 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
             builder.Property(d => d.ExperienceYears)
                 .IsRequired();
 
-
             builder.HasOne(d => d.Specialization)
-                .WithMany()
-                .HasForeignKey(d => d.Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                .WithMany() 
+                .IsRequired();
+
+            builder.HasIndex(d => d.PassportNumber)
+                .IsUnique();
         });
 
         modelBuilder.Entity<Patient>(builder =>
@@ -74,7 +74,7 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
 
             builder.Property(p => p.Gender)
                 .IsRequired()
-                .HasConversion<string>(); 
+                .HasConversion<string>();
 
             builder.Property(p => p.Birthday)
                 .IsRequired();
@@ -94,22 +94,23 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
             builder.Property(p => p.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(15);
-        });
 
+            builder.HasIndex(p => p.PassportNumber)
+                .IsUnique();
+        });
 
         modelBuilder.Entity<Appointment>(builder =>
         {
             builder.HasKey(a => a.Id);
 
             builder.HasOne(a => a.Patient)
-                .WithMany()
-                .HasForeignKey(a => a.Id)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany() 
+                .IsRequired();
+
 
             builder.HasOne(a => a.Doctor)
-                .WithMany()
-                .HasForeignKey(a => a.Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                .WithMany() 
+                .IsRequired();
 
             builder.Property(a => a.AppointmentDateTime)
                 .IsRequired();
@@ -120,6 +121,10 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
             builder.Property(a => a.IsFollowUp)
                 .IsRequired()
                 .HasDefaultValue(false);
+
+            builder.HasIndex(a => a.AppointmentDateTime);
+
+            builder.HasIndex(a => new { a.Id, a.AppointmentDateTime });
         });
     }
 }
