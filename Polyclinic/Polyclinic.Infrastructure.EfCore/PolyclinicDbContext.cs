@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Polyclinic.Domain.Data;
 using Polyclinic.Domain.Enums;
 using Polyclinic.Domain.Models;
 
@@ -13,6 +14,18 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Patient>()
+            .Property(p => p.Gender)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Patient>()
+            .Property(p => p.BloodType)
+            .HasConversion<string>();
+
+        modelBuilder.Entity<Patient>()
+            .Property(p => p.RhFactor)
+            .HasConversion<string>();
+
         modelBuilder.Entity<Specialization>(builder =>
         {
             builder.HasKey(s => s.Id);
@@ -20,18 +33,7 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasData(
-                new Specialization { Id = 1, Name = "Хирург" },
-                new Specialization { Id = 2, Name = "Невролог" },
-                new Specialization { Id = 3, Name = "Дерматолог" },
-                new Specialization { Id = 4, Name = "Офтальмолог" },
-                new Specialization { Id = 5, Name = "Терапевт" },
-                new Specialization { Id = 6, Name = "Педиатр" },
-                new Specialization { Id = 7, Name = "Стоматолог" },
-                new Specialization { Id = 8, Name = "Ортопед" },
-                new Specialization { Id = 9, Name = "Кардиолог" },
-                new Specialization { Id = 10, Name = "Эндокринолог" }
-            );
+            builder.HasData(DataSeed.Specializations);
         });
 
         modelBuilder.Entity<Doctor>(builder =>
@@ -53,11 +55,21 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
                 .IsRequired();
 
             builder.HasOne(d => d.Specialization)
-                .WithMany() 
+                .WithMany()
                 .IsRequired();
 
             builder.HasIndex(d => d.PassportNumber)
                 .IsUnique();
+
+            builder.HasData(DataSeed.Doctors.Select(d => new
+            {
+                d.Id,
+                d.PassportNumber,
+                d.FullName,
+                d.BirthYear,
+                d.ExperienceYears,
+                SpecializationId = d.Specialization?.Id ?? 1
+            }));
         });
 
         modelBuilder.Entity<Patient>(builder =>
@@ -72,10 +84,6 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(p => p.Gender)
-                .IsRequired()
-                .HasConversion<string>();
-
             builder.Property(p => p.Birthday)
                 .IsRequired();
 
@@ -83,20 +91,25 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
                 .IsRequired()
                 .HasMaxLength(200);
 
-            builder.Property(p => p.BloodType)
-                .IsRequired()
-                .HasConversion<string>();
-
-            builder.Property(p => p.RhFactor)
-                .IsRequired()
-                .HasConversion<string>();
-
             builder.Property(p => p.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(15);
 
             builder.HasIndex(p => p.PassportNumber)
                 .IsUnique();
+
+            builder.HasData(DataSeed.Patients.Select(p => new
+            {
+                p.Id,
+                p.PassportNumber,
+                p.FullName,
+                p.Gender,           
+                p.Birthday,
+                p.Address,
+                p.BloodType,       
+                p.RhFactor,        
+                p.PhoneNumber
+            }));
         });
 
         modelBuilder.Entity<Appointment>(builder =>
@@ -104,12 +117,11 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
             builder.HasKey(a => a.Id);
 
             builder.HasOne(a => a.Patient)
-                .WithMany() 
+                .WithMany()
                 .IsRequired();
 
-
             builder.HasOne(a => a.Doctor)
-                .WithMany() 
+                .WithMany()
                 .IsRequired();
 
             builder.Property(a => a.AppointmentDateTime)
@@ -123,8 +135,17 @@ public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
                 .HasDefaultValue(false);
 
             builder.HasIndex(a => a.AppointmentDateTime);
-
             builder.HasIndex(a => new { a.Id, a.AppointmentDateTime });
+
+        builder.HasData(DataSeed.Appointments.Select(a => new
+            {
+                a.Id,
+                PatientId = a.Patient?.Id ?? 1,
+                DoctorId = a.Doctor?.Id ?? 1,
+                a.AppointmentDateTime,
+                a.RoomNumber,
+                a.IsFollowUp
+            }));
         });
     }
 }

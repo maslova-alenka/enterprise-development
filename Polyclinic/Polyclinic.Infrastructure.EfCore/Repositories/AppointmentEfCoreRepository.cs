@@ -9,6 +9,32 @@ public class AppointmentEfCoreRepository(PolyclinicDbContext db) : IRepository<A
 {
     public void Create(Appointment entity)
     {
+        if (entity.Patient == null || entity.Patient.Id <= 0)
+            throw new ArgumentException("Patient must have valid Id");
+
+        if (entity.Doctor == null || entity.Doctor.Id <= 0)
+            throw new ArgumentException("Doctor must have valid Id");
+
+        if (entity.Patient.Id > 0)
+        {
+            var existingPatient = db.Patients.Local
+                .FirstOrDefault(p => p.Id == entity.Patient.Id)
+                ?? db.Patients.Find(entity.Patient.Id);
+
+            if (existingPatient != null)
+                entity.Patient = existingPatient;
+        }
+
+        if (entity.Doctor.Id > 0)
+        {
+            var existingDoctor = db.Doctors.Local
+                .FirstOrDefault(d => d.Id == entity.Doctor.Id)
+                ?? db.Doctors.Find(entity.Doctor.Id);
+
+            if (existingDoctor != null)
+                entity.Doctor = existingDoctor;
+        }
+
         db.Appointments.Add(entity);
         db.SaveChanges();
     }

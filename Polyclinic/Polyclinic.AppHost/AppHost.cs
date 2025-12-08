@@ -1,12 +1,10 @@
 ﻿var builder = DistributedApplication.CreateBuilder(args);
 
-// Добавляем MySQL
-var mysql = builder.AddMySql("mysql")
-    .WithDataVolume()
-    .AddDatabase("PolyclinicDb");
+var mysql = builder.AddMySql("mysql");
+var mysqlDb = mysql.AddDatabase("mysqldb");
 
-// Добавляем API проект
-var api = builder.AddProject<Projects.Polyclinic_Api>("polyclinic-api")
-    .WithReference(mysql);
+builder.AddProject<Projects.Polyclinic_Api>("polyclinic-api")
+    .WithReference(mysqlDb, "mysqldb")
+    .WaitFor(mysqlDb);
 
 builder.Build().Run();

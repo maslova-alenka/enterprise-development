@@ -1,0 +1,36 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+
+
+
+namespace Polyclinic.Infrastructure.EfCore;
+
+public class DbContextFactory : IDesignTimeDbContextFactory<PolyclinicDbContext>
+{
+    /// <summary>
+    /// Creates AppDbContext with configuration from AppSettings.json.
+    /// </summary>
+    public PolyclinicDbContext CreateDbContext(string[] args)
+    {
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("AppSettings.json")
+            .Build();
+
+        var connectionString = configuration.GetConnectionString("mysqldb");
+
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new InvalidOperationException("Connection string 'mysqldb' not found.");
+        }
+
+        var optionsBuilder = new DbContextOptionsBuilder<PolyclinicDbContext>();
+        optionsBuilder.UseMySql(
+            connectionString,
+            new MySqlServerVersion(new Version(9, 4, 0))
+        );
+
+        return new PolyclinicDbContext(optionsBuilder.Options);
+    }
+}

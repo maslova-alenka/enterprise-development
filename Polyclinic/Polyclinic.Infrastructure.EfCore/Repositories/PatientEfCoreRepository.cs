@@ -25,12 +25,15 @@ public class PatientEfCoreRepository(PolyclinicDbContext db) : IRepository<Patie
 
     public Patient? Read(int entityId)
     {
-        return db.Patients.Find(entityId);
+        return db.Patients
+            .AsNoTracking()
+            .FirstOrDefault(p => p.Id == entityId);
     }
 
     public List<Patient> ReadAll()
     {
         return db.Patients
+            .AsNoTracking()
             .OrderBy(p => p.Id)
             .ToList();
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Polyclinic.Application;
 using Polyclinic.Application.Service;
 using Polyclinic.Contracts;
@@ -9,14 +10,13 @@ using Polyclinic.Contracts.Patients;
 using Polyclinic.Contracts.Specializations;
 using Polyclinic.Domain.Interfaces;
 using Polyclinic.Domain.Models;
-using Polyclinic.Infrastructure.EfCore; 
+using Polyclinic.Infrastructure.EfCore;
 using Polyclinic.Infrastructure.EfCore.Repositories;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddDbContext<PolyclinicDbContext>(options => 
+builder.Services.AddDbContext<PolyclinicDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("mysqldb");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -45,15 +45,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     var assembly = Assembly.GetExecutingAssembly();
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{assembly.GetName().Name}.xml"));
-    foreach (var refAssembly in assembly.GetReferencedAssemblies())
-    {
-        if (refAssembly.Name!.StartsWith("System.") || refAssembly.Name.StartsWith("Microsoft."))
-            continue;
+    var xmlFile = $"{assembly.GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-        var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{refAssembly.Name}.xml");
-        if (File.Exists(xmlPath))
-            options.IncludeXmlComments(xmlPath);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
     }
 });
 
@@ -61,6 +58,10 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<PolyclinicDbContext>();
+    db.Database.Migrate();
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
