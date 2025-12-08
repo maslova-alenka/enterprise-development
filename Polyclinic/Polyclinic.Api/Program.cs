@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Polyclinic.Application;
 using Polyclinic.Application.Service;
 using Polyclinic.Contracts;

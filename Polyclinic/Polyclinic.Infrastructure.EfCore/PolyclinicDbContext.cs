@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Polyclinic.Domain.Data;
-using Polyclinic.Domain.Enums;
 using Polyclinic.Domain.Models;
 
 namespace Polyclinic.Infrastructure.EfCore;

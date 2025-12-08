@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-
-
 namespace Polyclinic.Infrastructure.EfCore;
 
 public class DbContextFactory : IDesignTimeDbContextFactory<PolyclinicDbContext>

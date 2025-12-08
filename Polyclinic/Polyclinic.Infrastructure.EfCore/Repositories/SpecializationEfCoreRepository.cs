@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Polyclinic.Domain.Interfaces;
 using Polyclinic.Domain.Models;
-using Polyclinic.Infrastructure.EfCore;
 
 namespace Polyclinic.Infrastructure.EfCore.Repositories;
 
