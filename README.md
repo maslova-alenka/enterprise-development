@@ -34,6 +34,12 @@ Polyclinic/
 │   ├── appsettings.json
 │   └── appsettings.Development.json
 │
+├── Polyclinic.AppHost/
+│   ├── AppHost.cs
+│   ├── Properties/
+│   │   └── launchSettings.json
+│   └── appsettings.Development.json
+|
 ├── Polyclinic.Application/
 │   ├──Service/
 │   │   ├── AnalyticsService.cs
@@ -77,12 +83,26 @@ Polyclinic/
 │   │   └── IRepository.cs
 │   └── Data/
 │       └── DataSeed.cs
+|
+├──Polyclinic.Infrastructure.EfCore/
+|   ├── Migrations/
+│   ├── Repositories/
+│   │   ├── AppointmentEfCoreRepository.cs
+│   │   ├── DoctorsEfCoreRepository.cs
+│   │   ├── PatientsEfCoreRepository.cs
+│   │   └── SpecializationsEfCoreRepository.cs
+│   ├── AppSettings.json
+│   ├── DbContextFactory.cs
+|   └──PolyclinicDbContext.cs
 │
 ├── Polyclinic.Repositories.InMemory/
 │   ├── AppointmentInMemoryRepository.cs
 │   ├── DoctorInMemoryRepository.cs
 │   ├── PatientInMemoryRepository.cs
 │   └── SpecializationInMemoryRepository.cs
+|
+├── Polyclinic.ServiceDefaults/
+│  └── Extensions.cs
 │
 └── Polyclinic.Test/
     ├── PolyclinicTest.cs
@@ -102,3 +122,10 @@ Polyclinic/
 Реализованы полные CRUD-операции для сущностей: врачи, пациенты, специализации и записи на приём. 
 Данные хранятся в памяти приложения с использованием коллекций и тестовых данных. 
 Приложение построено с использованием AutoMapper, Swagger и обеспечивает валидацию входных данных.
+
+# Лабораторная работа 2 - "ORM"
+## Описание проекта
+Переведено хранение данных с коллекций в памяти на базу данных с помощью EF Core. 
+Созданы миграции для генерации таблиц и их начального заполнения. 
+Настроены связи между сущностями и репозитории для работы с БД. 
+Подготовлена конфигурация для запуска приложения и БД через Aspire.
