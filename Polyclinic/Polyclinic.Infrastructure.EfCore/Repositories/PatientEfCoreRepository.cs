@@ -5,14 +5,24 @@ using Polyclinic.Infrastructure.EfCore;
 
 namespace Polyclinic.Infrastructure.EfCore.Repositories;
 
+/// <summary>
+/// Repository for Patient entities with CRUD operations.
+/// Uses AsNoTracking for read operations to improve performance.
+/// </summary>
 public class PatientEfCoreRepository(PolyclinicDbContext db) : IRepository<Patient, int>
 {
+    /// <summary>
+    /// Creates new patient in database.
+    /// </summary>
     public void Create(Patient entity)
     {
         db.Patients.Add(entity);
         db.SaveChanges();
     }
 
+    /// <summary>
+    /// Deletes patient by ID if exists.
+    /// </summary>
     public void Delete(int entityId)
     {
         var entity = db.Patients.Find(entityId);
@@ -23,6 +33,9 @@ public class PatientEfCoreRepository(PolyclinicDbContext db) : IRepository<Patie
         }
     }
 
+    /// <summary>
+    /// Gets patient by ID without entity tracking.
+    /// </summary>
     public Patient? Read(int entityId)
     {
         return db.Patients
@@ -30,6 +43,9 @@ public class PatientEfCoreRepository(PolyclinicDbContext db) : IRepository<Patie
             .FirstOrDefault(p => p.Id == entityId);
     }
 
+    /// <summary>
+    /// Gets all patients without tracking, ordered by ID.
+    /// </summary>
     public List<Patient> ReadAll()
     {
         return db.Patients
@@ -38,6 +54,9 @@ public class PatientEfCoreRepository(PolyclinicDbContext db) : IRepository<Patie
             .ToList();
     }
 
+    /// <summary>
+    /// Updates existing patient if found.
+    /// </summary>
     public void Update(Patient entity)
     {
         if (db.Patients.Any(x => x.Id == entity.Id))

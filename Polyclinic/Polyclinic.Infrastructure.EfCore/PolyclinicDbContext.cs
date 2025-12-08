@@ -5,6 +5,10 @@ using Polyclinic.Domain.Models;
 
 namespace Polyclinic.Infrastructure.EfCore;
 
+/// <summary>
+/// Database context for Polyclinic application.
+/// Configures entity relationships, constraints and seed data.
+/// </summary>
 public class PolyclinicDbContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Doctor> Doctors { get; set; }
