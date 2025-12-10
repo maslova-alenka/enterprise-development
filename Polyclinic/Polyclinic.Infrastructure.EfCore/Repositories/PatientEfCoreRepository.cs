@@ -11,57 +11,57 @@ namespace Polyclinic.Infrastructure.EfCore.Repositories;
 public class PatientEfCoreRepository(PolyclinicDbContext db) : IRepository<Patient, int>
 {
     /// <summary>
-    /// Creates new patient in database.
+    /// Creates new patient in database asynchronously.
     /// </summary>
-    public void Create(Patient entity)
+    public async Task CreateAsync(Patient entity)
     {
-        db.Patients.Add(entity);
-        db.SaveChanges();
+        await db.Patients.AddAsync(entity);
+        await db.SaveChangesAsync();
     }
 
     /// <summary>
-    /// Deletes patient by ID if exists.
+    /// Deletes patient by ID if exists asynchronously.
     /// </summary>
-    public void Delete(int entityId)
+    public async Task DeleteAsync(int entityId)
     {
-        var entity = db.Patients.Find(entityId);
+        var entity = await db.Patients.FindAsync(entityId);
         if (entity != null)
         {
             db.Patients.Remove(entity);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 
     /// <summary>
-    /// Gets patient by ID without entity tracking.
+    /// Gets patient by ID without entity tracking asynchronously.
     /// </summary>
-    public Patient? Read(int entityId)
+    public async Task<Patient?> ReadAsync(int entityId)
     {
-        return db.Patients
+        return await db.Patients
             .AsNoTracking()
-            .FirstOrDefault(p => p.Id == entityId);
+            .FirstOrDefaultAsync(p => p.Id == entityId);
     }
 
     /// <summary>
-    /// Gets all patients without tracking, ordered by ID.
+    /// Gets all patients without tracking, ordered by ID asynchronously.
     /// </summary>
-    public List<Patient> ReadAll()
+    public async Task<List<Patient>> ReadAllAsync()
     {
-        return db.Patients
+        return await db.Patients
             .AsNoTracking()
             .OrderBy(p => p.Id)
-            .ToList();
+            .ToListAsync();
     }
 
     /// <summary>
-    /// Updates existing patient if found.
+    /// Updates existing patient if found asynchronously.
     /// </summary>
-    public void Update(Patient entity)
+    public async Task UpdateAsync(Patient entity)
     {
-        if (db.Patients.Any(x => x.Id == entity.Id))
+        if (await db.Patients.AnyAsync(x => x.Id == entity.Id))
         {
             db.Patients.Update(entity);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

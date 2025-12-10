@@ -8,61 +8,54 @@ namespace Polyclinic.Infrastructure.EfCore.Repositories;
 /// Repository for Specialization entities with CRUD operations.
 /// Uses explicit DbSet for better separation of concerns.
 /// </summary>
-public class SpecializationEfCoreRepository : IRepository<Specialization, int>
+public class SpecializationEfCoreRepository(PolyclinicDbContext context) : IRepository<Specialization, int>
 {
-    private readonly PolyclinicDbContext _context;
-    private readonly DbSet<Specialization> _specializations;
+    private readonly DbSet<Specialization> _specializations = context.Specializations;
 
-    public SpecializationEfCoreRepository(PolyclinicDbContext context)
+    /// <summary>
+    /// Creates new specialization in database asynchronously.
+    /// </summary>
+    public async Task CreateAsync(Specialization entity)
     {
-        _context = context;
-        _specializations = context.Specializations;
+        await _specializations.AddAsync(entity);
+        await context.SaveChangesAsync();
     }
 
     /// <summary>
-    /// Creates new specialization in database.
+    /// Deletes specialization by ID if exists asynchronously.
     /// </summary>
-    public void Create(Specialization entity)
+    public async Task DeleteAsync(int entityId)
     {
-        _specializations.Add(entity);
-        _context.SaveChanges();
-    }
-
-    /// <summary>
-    /// Deletes specialization by ID if exists.
-    /// </summary>
-    public void Delete(int entityId)
-    {
-        var entity = Read(entityId);
+        var entity = await ReadAsync(entityId);
         if (entity != null)
         {
             _specializations.Remove(entity);
-            _context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 
     /// <summary>
-    /// Gets specialization by ID.
+    /// Gets specialization by ID asynchronously.
     /// </summary>
-    public Specialization? Read(int entityId)
+    public async Task<Specialization?> ReadAsync(int entityId)
     {
-        return _specializations.FirstOrDefault(s => s.Id == entityId);
+        return await _specializations.FirstOrDefaultAsync(s => s.Id == entityId);
     }
 
     /// <summary>
-    /// Gets all specializations ordered by ID.
+    /// Gets all specializations ordered by ID asynchronously.
     /// </summary>
-    public List<Specialization> ReadAll()
+    public async Task<List<Specialization>> ReadAllAsync()
     {
-        return _specializations.OrderBy(s => s.Id).ToList();
+        return await _specializations.OrderBy(s => s.Id).ToListAsync();
     }
 
     /// <summary>
-    /// Updates existing specialization.
+    /// Updates existing specialization asynchronously.
     /// </summary>
-    public void Update(Specialization entity)
+    public async Task UpdateAsync(Specialization entity)
     {
         _specializations.Update(entity);
-        _context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

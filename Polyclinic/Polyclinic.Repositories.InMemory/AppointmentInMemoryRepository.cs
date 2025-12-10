@@ -20,51 +20,54 @@ public class AppointmentInMemoryRepository : IRepository<Appointment, int>
     }
 
     /// <summary>
-    /// Creates a new appointment
+    /// Creates a new appointment asynchronously
     /// </summary>
     /// <param name="entity">Appointment to create</param>
-    public void Create(Appointment entity)
+    public Task CreateAsync(Appointment entity)
     {
         _appointments.Add(entity);
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Deletes an appointment by identifier
+    /// Deletes an appointment by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Appointment identifier</param>
-    public void Delete(int entityId)
+    public Task DeleteAsync(int entityId)
     {
-        var appointment = Read(entityId);
+        var appointment = _appointments.FirstOrDefault(a => a.Id == entityId);
         if (appointment != null)
             _appointments.Remove(appointment);
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Retrieves an appointment by identifier
+    /// Retrieves an appointment by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Appointment identifier</param>
     /// <returns>Appointment if found</returns>
-    public Appointment? Read(int entityId)
+    public Task<Appointment?> ReadAsync(int entityId)
     {
-        return _appointments.FirstOrDefault(a => a.Id == entityId);
+        return Task.FromResult(_appointments.FirstOrDefault(a => a.Id == entityId));
     }
 
     /// <summary>
-    /// Retrieves all appointments
+    /// Retrieves all appointments asynchronously
     /// </summary>
     /// <returns>List of all appointments</returns>
-    public List<Appointment> ReadAll()
+    public Task<List<Appointment>> ReadAllAsync()
     {
-        return [.. _appointments];
+        return Task.FromResult<List<Appointment>>([.. _appointments]);
     }
 
     /// <summary>
-    /// Updates an existing appointment
+    /// Updates an existing appointment asynchronously
     /// </summary>
     /// <param name="entity">Appointment with updated data</param>
-    public void Update(Appointment entity)
+    public async Task UpdateAsync(Appointment entity)
     {
-        Delete(entity.Id);
-        Create(entity);
+        await DeleteAsync(entity.Id);
+        await CreateAsync(entity);
     }
 }

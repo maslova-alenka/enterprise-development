@@ -12,71 +12,88 @@ namespace Polyclinic.Application.Service;
 /// <param name="patientRepository">Patient repository</param>
 /// <param name="appointmentRepository">Appointment repository</param>
 /// <param name="mapper">Mapping profile</param>
-public class PatientService(IRepository<Patient, int> patientRepository, IRepository<Appointment, int> appointmentRepository, IMapper mapper) : IPatientService
+public class PatientService(
+    IRepository<Patient, int> patientRepository,
+    IRepository<Appointment, int> appointmentRepository,
+    IMapper mapper) : IPatientService
 {
     /// <summary>
-    /// Creates a new patient
+    /// Creates a new patient asynchronously
     /// </summary>
     /// <param name="dto">Data for creating the patient</param>
     /// <returns>Created patient</returns>
-    public PatientDto Create(PatientCreateUpdateDto dto)
+    public async Task<PatientDto> CreateAsync(PatientCreateUpdateDto dto)
     {
         var newPatient = mapper.Map<Patient>(dto);
-        var lastPatientId = patientRepository.ReadAll().Max(p => p.Id);
+        var allPatients = await patientRepository.ReadAllAsync();
+        var lastPatientId = allPatients.Max(p => p.Id);
         newPatient.Id = lastPatientId + 1;
 
-        patientRepository.Create(newPatient);
+        await patientRepository.CreateAsync(newPatient);
         return mapper.Map<PatientDto>(newPatient);
     }
 
     /// <summary>
-    /// Deletes a patient by identifier
+    /// Deletes a patient by identifier asynchronously
     /// </summary>
     /// <param name="dtoId">Patient identifier</param>
     /// <returns>True if deletion was successful</returns>
-    public bool Delete(int dtoId)
+    public async Task<bool> DeleteAsync(int dtoId)
     {
-        patientRepository.Delete(dtoId);
+        await patientRepository.DeleteAsync(dtoId);
         return true;
     }
 
     /// <summary>
-    /// Retrieves a patient by identifier
+    /// Retrieves a patient by identifier asynchronously
     /// </summary>
     /// <param name="dtoId">Patient identifier</param>
     /// <returns>Patient if found</returns>
-    public PatientDto? Get(int dtoId) =>
-        mapper.Map<PatientDto?>(patientRepository.Read(dtoId));
+    public async Task<PatientDto?> GetAsync(int dtoId)
+    {
+        var patient = await patientRepository.ReadAsync(dtoId);
+        return mapper.Map<PatientDto?>(patient);
+    }
 
     /// <summary>
-    /// Retrieves all patients
+    /// Retrieves all patients asynchronously
     /// </summary>
     /// <returns>List of all patients</returns>
-    public List<PatientDto> GetAll() =>
-        mapper.Map<List<PatientDto>>(patientRepository.ReadAll());
+    public async Task<List<PatientDto>> GetAllAsync()
+    {
+        var patients = await patientRepository.ReadAllAsync();
+        return mapper.Map<List<PatientDto>>(patients);
+    }
 
     /// <summary>
-    /// Updates an existing patient
+    /// Updates an existing patient asynchronously
     /// </summary>
     /// <param name="dto">Data for updating the patient</param>
     /// <param name="dtoId">Patient identifier</param>
     /// <returns>Updated patient</returns>
-    public PatientDto Update(PatientCreateUpdateDto dto, int dtoId)
+    public async Task<PatientDto> UpdateAsync(PatientCreateUpdateDto dto, int dtoId)
     {
-        var existingPatient = patientRepository.Read(dtoId)
-        ?? throw new ArgumentException($"Patient with ID {dtoId} not found");
+        var existingPatient = await patientRepository.ReadAsync(dtoId)
+            ?? throw new ArgumentException($"Patient with ID {dtoId} not found");
 
         var updatePatient = mapper.Map<Patient>(dto);
         updatePatient.Id = dtoId;
-        patientRepository.Update(updatePatient);
+        await patientRepository.UpdateAsync(updatePatient);
         return mapper.Map<PatientDto>(updatePatient);
     }
 
     /// <summary>
-    /// Retrieves all appointments for a specific patient
+    /// Retrieves all appointments for a specific patient asynchronously
     /// </summary>
     /// <param name="patientId">Patient identifier</param>
     /// <returns>List of patient's appointments</returns>
-    public List<AppointmentDto> GetPatientAppointments(int patientId) =>
-        mapper.Map<List<AppointmentDto>>(appointmentRepository.ReadAll().Where(a => a.Patient.Id == patientId).ToList());
+    public async Task<List<AppointmentDto>> GetPatientAppointmentsAsync(int patientId)
+    {
+        var appointments = await appointmentRepository.ReadAllAsync();
+        var patientAppointments = appointments
+            .Where(a => a.Patient.Id == patientId)
+            .ToList();
+
+        return mapper.Map<List<AppointmentDto>>(patientAppointments);
+    }
 }

@@ -12,7 +12,7 @@ using Polyclinic.Infrastructure.EfCore;
 namespace Polyclinic.Infrastructure.EfCore.Migrations;
 
 [DbContext(typeof(PolyclinicDbContext))]
-[Migration("20251208204324_InitialCreate")]
+[Migration("20251210192253_InitialCreate")]
 partial class InitialCreate
 {
     /// <inheritdoc />

@@ -20,51 +20,54 @@ public class DoctorInMemoryRepository : IRepository<Doctor, int>
     }
 
     /// <summary>
-    /// Creates a new doctor
+    /// Creates a new doctor asynchronously
     /// </summary>
     /// <param name="entity">Doctor to create</param>
-    public void Create(Doctor entity)
+    public Task CreateAsync(Doctor entity)
     {
         _doctors.Add(entity);
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Deletes a doctor by identifier
+    /// Deletes a doctor by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Doctor identifier</param>
-    public void Delete(int entityId)
+    public Task DeleteAsync(int entityId)
     {
-        var doctor = Read(entityId);
+        var doctor = _doctors.FirstOrDefault(d => d.Id == entityId);
         if (doctor != null)
             _doctors.Remove(doctor);
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Retrieves a doctor by identifier
+    /// Retrieves a doctor by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Doctor identifier</param>
     /// <returns>Doctor if found</returns>
-    public Doctor? Read(int entityId)
+    public Task<Doctor?> ReadAsync(int entityId)
     {
-        return _doctors.FirstOrDefault(d => d.Id == entityId);
+        return Task.FromResult(_doctors.FirstOrDefault(d => d.Id == entityId));
     }
 
     /// <summary>
-    /// Retrieves all doctors
+    /// Retrieves all doctors asynchronously
     /// </summary>
     /// <returns>List of all doctors</returns>
-    public List<Doctor> ReadAll()
+    public Task<List<Doctor>> ReadAllAsync()
     {
-        return [.. _doctors];
+        return Task.FromResult<List<Doctor>>([.. _doctors]);
     }
 
     /// <summary>
-    /// Updates an existing doctor
+    /// Updates an existing doctor asynchronously
     /// </summary>
     /// <param name="entity">Doctor with updated data</param>
-    public void Update(Doctor entity)
+    public async Task UpdateAsync(Doctor entity)
     {
-        Delete(entity.Id);
-        Create(entity);
+        await DeleteAsync(entity.Id);
+        await CreateAsync(entity);
     }
 }

@@ -11,57 +11,57 @@ namespace Polyclinic.Infrastructure.EfCore.Repositories;
 public class DoctorEfCoreRepository(PolyclinicDbContext db) : IRepository<Doctor, int>
 {
     /// <summary>
-    /// Creates new doctor in database.
+    /// Creates new doctor in database asynchronously.
     /// </summary>
-    public void Create(Doctor entity)
+    public async Task CreateAsync(Doctor entity)
     {
-        db.Doctors.Add(entity);
-        db.SaveChanges();
+        await db.Doctors.AddAsync(entity);
+        await db.SaveChangesAsync();
     }
 
     /// <summary>
-    /// Deletes doctor by ID if exists.
+    /// Deletes doctor by ID if exists asynchronously.
     /// </summary>
-    public void Delete(int entityId)
+    public async Task DeleteAsync(int entityId)
     {
-        var entity = db.Doctors.Find(entityId);
+        var entity = await db.Doctors.FindAsync(entityId);
         if (entity != null)
         {
             db.Doctors.Remove(entity);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 
     /// <summary>
-    /// Gets doctor by ID with Specialization included.
+    /// Gets doctor by ID with Specialization included asynchronously.
     /// </summary>
-    public Doctor? Read(int entityId)
+    public async Task<Doctor?> ReadAsync(int entityId)
     {
-        return db.Doctors
+        return await db.Doctors
             .Include(d => d.Specialization)
-            .FirstOrDefault(d => d.Id == entityId);
+            .FirstOrDefaultAsync(d => d.Id == entityId);
     }
 
     /// <summary>
-    /// Gets all doctors with Specializations, ordered by ID.
+    /// Gets all doctors with Specializations, ordered by ID asynchronously.
     /// </summary>
-    public List<Doctor> ReadAll()
+    public async Task<List<Doctor>> ReadAllAsync()
     {
-        return db.Doctors
+        return await db.Doctors
             .Include(d => d.Specialization)
             .OrderBy(d => d.Id)
-            .ToList();
+            .ToListAsync();
     }
 
     /// <summary>
-    /// Updates existing doctor if found.
+    /// Updates existing doctor if found asynchronously.
     /// </summary>
-    public void Update(Doctor entity)
+    public async Task UpdateAsync(Doctor entity)
     {
-        if (db.Doctors.Any(x => x.Id == entity.Id))
+        if (await db.Doctors.AnyAsync(x => x.Id == entity.Id))
         {
             db.Doctors.Update(entity);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

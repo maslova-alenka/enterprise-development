@@ -12,5 +12,5 @@ public interface IPatientService : IApplicationService<PatientDto, PatientCreate
     /// </summary>
     /// <param name="patientId">Patient identifier</param>
     /// <returns>List of patient's appointments</returns>
-    public List<AppointmentDto> GetPatientAppointments(int patientId);
+    Task<List<AppointmentDto>> GetPatientAppointmentsAsync(int patientId);
 }

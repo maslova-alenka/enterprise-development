@@ -16,20 +16,20 @@ public interface IApplicationService<TDto, TCreateUpdateDto, TKey>
     /// </summary>
     /// <param name="dto">Data for creating the entity</param>
     /// <returns>Created entity</returns>
-    TDto Create(TCreateUpdateDto dto);
+    Task<TDto> CreateAsync(TCreateUpdateDto dto);
 
     /// <summary>
     /// Retrieves an entity by identifier
     /// </summary>
     /// <param name="dtoId">Entity identifier</param>
     /// <returns>Entity if found</returns>
-    TDto? Get(TKey dtoId);
+    Task<TDto?> GetAsync(TKey dtoId);
 
     /// <summary>
     /// Retrieves all entities
     /// </summary>
     /// <returns>List of all entities</returns>
-    List<TDto> GetAll();
+    Task<List<TDto>> GetAllAsync();
 
     /// <summary>
     /// Updates an existing entity
@@ -37,12 +37,12 @@ public interface IApplicationService<TDto, TCreateUpdateDto, TKey>
     /// <param name="dto">Data for updating the entity</param>
     /// <param name="dtoId">Entity identifier</param>
     /// <returns>Updated entity</returns>
-    TDto Update(TCreateUpdateDto dto, TKey dtoId);
+    Task<TDto> UpdateAsync(TCreateUpdateDto dto, TKey dtoId);
 
     /// <summary>
     /// Deletes an entity by identifier
     /// </summary>
     /// <param name="dtoId">Entity identifier</param>
     /// <returns>True if deletion was successful</returns>
-    bool Delete(TKey dtoId);
+    Task<bool> DeleteAsync(TKey dtoId);
 }

@@ -21,19 +21,20 @@ public class AppointmentService(
     IMapper mapper) : IAppointmentService
 {
     /// <summary>
-    /// Creates a new appointment
+    /// Creates a new appointment asynchronously
     /// </summary>
     /// <param name="dto">Data for creating the appointment</param>
     /// <returns>Created appointment</returns>
-    public AppointmentDto Create(AppointmentCreateUpdateDto dto)
+    public async Task<AppointmentDto> CreateAsync(AppointmentCreateUpdateDto dto)
     {
-        var patient = patientRepository.Read(dto.PatientId);
-        var doctor = doctorRepository.Read(dto.DoctorId);
+        var patient = await patientRepository.ReadAsync(dto.PatientId);
+        var doctor = await doctorRepository.ReadAsync(dto.DoctorId);
 
         if (patient == null || doctor == null)
             throw new ArgumentException("Patient or Doctor not found");
 
-        var lastAppointmentId = appointmentRepository.ReadAll().Max(a => a.Id);
+        var allAppointments = await appointmentRepository.ReadAllAsync();
+        var lastAppointmentId = allAppointments.Count > 0 ? allAppointments.Max(a => a.Id) : 0;
         var newId = lastAppointmentId + 1;
 
         var newAppointment = new Appointment
@@ -46,53 +47,55 @@ public class AppointmentService(
             IsFollowUp = dto.IsFollowUp
         };
 
-        appointmentRepository.Create(newAppointment);
+        await appointmentRepository.CreateAsync(newAppointment);
         return mapper.Map<AppointmentDto>(newAppointment);
     }
 
     /// <summary>
-    /// Deletes an appointment by identifier
+    /// Deletes an appointment by identifier asynchronously
     /// </summary>
     /// <param name="dtoId">Appointment identifier</param>
     /// <returns>True if deletion was successful</returns>
-    public bool Delete(int dtoId)
+    public async Task<bool> DeleteAsync(int dtoId)
     {
-        appointmentRepository.Delete(dtoId);
+        await appointmentRepository.DeleteAsync(dtoId);
         return true;
     }
 
     /// <summary>
-    /// Retrieves an appointment by identifier
+    /// Retrieves an appointment by identifier asynchronously
     /// </summary>
     /// <param name="dtoId">Appointment identifier</param>
     /// <returns>Appointment if found</returns>
-    public AppointmentDto? Get(int dtoId)
+    public async Task<AppointmentDto?> GetAsync(int dtoId)
     {
-        var appointment = appointmentRepository.Read(dtoId);
+        var appointment = await appointmentRepository.ReadAsync(dtoId);
         return appointment == null ? null : mapper.Map<AppointmentDto>(appointment);
     }
 
     /// <summary>
-    /// Retrieves all appointments
+    /// Retrieves all appointments asynchronously
     /// </summary>
     /// <returns>List of all appointments</returns>
-    public List<AppointmentDto> GetAll()
+    public async Task<List<AppointmentDto>> GetAllAsync()
     {
-        var appointments = appointmentRepository.ReadAll();
+        var appointments = await appointmentRepository.ReadAllAsync();
         return mapper.Map<List<AppointmentDto>>(appointments);
     }
 
     /// <summary>
-    /// Updates an existing appointment
+    /// Updates an existing appointment asynchronously
     /// </summary>
     /// <param name="dto">Data for updating the appointment</param>
     /// <param name="dtoId">Appointment identifier</param>
     /// <returns>Updated appointment</returns>
-    public AppointmentDto Update(AppointmentCreateUpdateDto dto, int dtoId)
+    public async Task<AppointmentDto> UpdateAsync(AppointmentCreateUpdateDto dto, int dtoId)
     {
-        var existing = appointmentRepository.Read(dtoId) ?? throw new ArgumentException($"Appointment with ID {dtoId} not found");
-        var patient = patientRepository.Read(dto.PatientId);
-        var doctor = doctorRepository.Read(dto.DoctorId);
+        var existing = await appointmentRepository.ReadAsync(dtoId)
+            ?? throw new ArgumentException($"Appointment with ID {dtoId} not found");
+
+        var patient = await patientRepository.ReadAsync(dto.PatientId);
+        var doctor = await doctorRepository.ReadAsync(dto.DoctorId);
 
         if (patient == null || doctor == null)
             throw new ArgumentException("Patient or Doctor not found");
@@ -103,29 +106,29 @@ public class AppointmentService(
         existing.RoomNumber = dto.RoomNumber;
         existing.IsFollowUp = dto.IsFollowUp;
 
-        appointmentRepository.Update(existing);
+        await appointmentRepository.UpdateAsync(existing);
         return mapper.Map<AppointmentDto>(existing);
     }
 
     /// <summary>
-    /// Retrieves patient information for a specific appointment
+    /// Retrieves patient information for a specific appointment asynchronously
     /// </summary>
     /// <param name="appointmentId">Appointment identifier</param>
     /// <returns>Patient details or null if not found</returns>
-    public PatientDto? GetAppointmentPatient(int appointmentId)
+    public async Task<PatientDto?> GetAppointmentPatientAsync(int appointmentId)
     {
-        var appointment = appointmentRepository.Read(appointmentId);
+        var appointment = await appointmentRepository.ReadAsync(appointmentId);
         return appointment == null ? null : mapper.Map<PatientDto>(appointment.Patient);
     }
 
     /// <summary>
-    /// Retrieves doctor information for a specific appointment
+    /// Retrieves doctor information for a specific appointment asynchronously
     /// </summary>
     /// <param name="appointmentId">Appointment identifier</param>
     /// <returns>Doctor details or null if not found</returns>
-    public DoctorDto? GetAppointmentDoctor(int appointmentId)
+    public async Task<DoctorDto?> GetAppointmentDoctorAsync(int appointmentId)
     {
-        var appointment = appointmentRepository.Read(appointmentId);
+        var appointment = await appointmentRepository.ReadAsync(appointmentId);
         return appointment == null ? null : mapper.Map<DoctorDto>(appointment.Doctor);
     }
 }

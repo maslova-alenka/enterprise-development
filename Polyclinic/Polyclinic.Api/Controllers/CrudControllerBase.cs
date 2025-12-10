@@ -4,7 +4,7 @@ using Polyclinic.Contracts;
 namespace Polyclinic.Api.Controllers;
 
 /// <summary>
-/// Base controller for CRUD operations
+/// Base controller for CRUD operations with async support
 /// </summary>
 /// <typeparam name="TDto">Data transfer object type</typeparam>
 /// <typeparam name="TCreateUpdateDto">Create and update data transfer object type</typeparam>
@@ -19,7 +19,7 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     where TKey : struct
 {
     /// <summary>
-    /// Creates a new entity
+    /// Creates a new entity asynchronously
     /// </summary>
     /// <param name="newDto">Data for creating the entity</param>
     /// <returns>Created entity</returns>
@@ -27,7 +27,7 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public ActionResult<TDto> Create(TCreateUpdateDto newDto)
+    public virtual async Task<ActionResult<TDto>> CreateAsync(TCreateUpdateDto newDto)
     {
         try
         {
@@ -43,18 +43,19 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
                 });
             }
 
-            var res = appService.Create(newDto);
-            return CreatedAtAction(nameof(Get), new { id = res.GetType().GetProperty("Id")?.GetValue(res) }, res);
+            var res = await appService.CreateAsync(newDto);
+
+            return StatusCode(201, res);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in Create");
+            logger.LogError(ex, "Error in CreateAsync");
             return StatusCode(500, "Failed to create entity");
         }
     }
 
     /// <summary>
-    /// Updates an existing entity
+    /// Updates an existing entity asynchronously
     /// </summary>
     /// <param name="id">Entity identifier</param>
     /// <param name="newDto">Data for updating the entity</param>
@@ -62,8 +63,9 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
     [HttpPut("{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     [ProducesResponseType(500)]
-    public ActionResult<TDto> Edit(TKey id, TCreateUpdateDto newDto)
+    public virtual async Task<ActionResult<TDto>> EditAsync(TKey id, TCreateUpdateDto newDto)
     {
         try
         {
@@ -79,81 +81,89 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
                 });
             }
 
-            var res = appService.Update(newDto, id);
+            var res = await appService.UpdateAsync(newDto, id);
             return Ok(res);
+        }
+        catch (ArgumentException ex) when (ex.Message.Contains("not found"))
+        {
+            logger.LogWarning(ex, "Entity not found in EditAsync");
+            return NotFound(new { Message = ex.Message });
+        }
+        catch (ArgumentException ex)
+        {
+            logger.LogWarning(ex, "Validation error in EditAsync");
+            return BadRequest(new { Message = ex.Message });
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in Edit");
+            logger.LogError(ex, "Error in EditAsync");
             return StatusCode(500, "Failed to update entity");
         }
     }
 
     /// <summary>
-    /// Deletes an entity by identifier
+    /// Deletes an entity by identifier asynchronously
     /// </summary>
     /// <param name="id">Entity identifier</param>
     /// <returns>Action result indicating success or failure</returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     [ProducesResponseType(500)]
-    public ActionResult Delete(TKey id)
+    public virtual async Task<ActionResult> DeleteAsync(TKey id)
     {
         try
         {
-            var res = appService.Delete(id);
-            return res ? Ok() : NoContent();
+            var result = await appService.DeleteAsync(id);
+            return result ? Ok() : NotFound();
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in Delete");
+            logger.LogError(ex, "Error in DeleteAsync");
             return StatusCode(500, "Failed to delete entity");
         }
     }
 
     /// <summary>
-    /// Retrieves all entities
+    /// Retrieves all entities asynchronously
     /// </summary>
     /// <returns>List of all entities</returns>
     [HttpGet]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
-    public ActionResult<List<TDto>> GetAll()
+    public virtual async Task<ActionResult<List<TDto>>> GetAllAsync()
     {
         try
         {
-            var res = appService.GetAll();
+            var res = await appService.GetAllAsync();
             return Ok(res);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in GetAll");
+            logger.LogError(ex, "Error in GetAllAsync");
             return StatusCode(500, "Failed to get entities list");
         }
     }
 
     /// <summary>
-    /// Retrieves an entity by identifier
+    /// Retrieves an entity by identifier asynchronously
     /// </summary>
     /// <param name="id">Entity identifier</param>
     /// <returns>Entity if found</returns>
     [HttpGet("{id}")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     [ProducesResponseType(500)]
-    public ActionResult<TDto> Get(TKey id)
+    public virtual async Task<ActionResult<TDto>> GetAsync(TKey id)
     {
         try
         {
-            var res = appService.Get(id);
-            return res != null ? Ok(res) : NoContent();
+            var res = await appService.GetAsync(id);
+            return res != null ? Ok(res) : NotFound();
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error in Get");
+            logger.LogError(ex, "Error in GetAsync");
             return StatusCode(500, "Failed to get entity");
         }
     }

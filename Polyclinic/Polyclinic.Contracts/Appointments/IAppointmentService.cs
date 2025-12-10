@@ -13,12 +13,12 @@ public interface IAppointmentService : IApplicationService<AppointmentDto, Appoi
     /// </summary>
     /// <param name="appointmentId">Appointment identifier</param>
     /// <returns>Patient details or null if not found</returns>
-    PatientDto? GetAppointmentPatient(int appointmentId);
+    Task<PatientDto?> GetAppointmentPatientAsync(int appointmentId);
 
     /// <summary>
     /// Retrieves doctor information for a specific appointment
     /// </summary>
     /// <param name="appointmentId">Appointment identifier</param>
     /// <returns>Doctor details or null if not found</returns>
-    DoctorDto? GetAppointmentDoctor(int appointmentId);
+    Task<DoctorDto?> GetAppointmentDoctorAsync(int appointmentId);
 }

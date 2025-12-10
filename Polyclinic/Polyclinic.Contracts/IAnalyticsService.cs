@@ -14,27 +14,27 @@ public interface IAnalyticsService
     /// </summary>
     /// <param name="minYears">Minimum years of experience required</param>
     /// <returns>List of doctors meeting the experience criteria</returns>
-    public List<DoctorDto> GetDoctorsWithExperienceAtLeast(int minYears);
+    Task<List<DoctorDto>> GetDoctorsWithExperienceAtLeastAsync(int minYears);
 
     /// <summary>
     /// Retrieves patients for a specific doctor ordered by name
     /// </summary>
     /// <param name="doctorId">Doctor identifier</param>
     /// <returns>List of patients for the specified doctor</returns>
-    public List<PatientDto> GetPatientsByDoctorOrderedByName(int doctorId);
+    Task<List<PatientDto>> GetPatientsByDoctorOrderedByNameAsync(int doctorId);
 
     /// <summary>
     /// Gets the count of follow-up appointments for the last month relative to reference date
     /// </summary>
     /// <param name="referenceDate">Reference date for calculating last month</param>
     /// <returns>Count of follow-up appointments</returns>
-    public int GetFollowUpAppointmentsCountLastMonth(DateTime referenceDate);
+    Task<int> GetFollowUpAppointmentsCountLastMonthAsync(DateTime referenceDate);
 
     /// <summary>
     /// Retrieves patients over 30 years old who have appointments with multiple doctors
     /// </summary>
     /// <returns>List of patients meeting the criteria</returns>
-    public List<PatientDto> GetPatientsOver30WithMultipleDoctors();
+    Task<List<PatientDto>> GetPatientsOver30WithMultipleDoctorsAsync();
 
     /// <summary>
     /// Retrieves appointments for a specific room in the current month
@@ -43,5 +43,5 @@ public interface IAnalyticsService
     /// <param name="year">Year for filtering appointments</param>
     /// <param name="month">Month for filtering appointments</param>
     /// <returns>List of appointments for the specified room and period</returns>
-    public List<AppointmentDto> GetAppointmentsByRoomForCurrentMonth(int roomNumber, int year, int month);
+    Task<List<AppointmentDto>> GetAppointmentsByRoomForCurrentMonthAsync(int roomNumber, int year, int month);
 }

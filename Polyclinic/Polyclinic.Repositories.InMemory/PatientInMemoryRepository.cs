@@ -5,7 +5,7 @@ using Polyclinic.Domain.Models;
 namespace Polyclinic.Repositories.InMemory;
 
 /// <summary>
-/// In-memory repository implementation for patients
+/// In-memory repository implementation for patients with async operations
 /// </summary>
 public class PatientInMemoryRepository : IRepository<Patient, int>
 {
@@ -20,51 +20,54 @@ public class PatientInMemoryRepository : IRepository<Patient, int>
     }
 
     /// <summary>
-    /// Creates a new patient
+    /// Creates a new patient asynchronously
     /// </summary>
     /// <param name="entity">Patient to create</param>
-    public void Create(Patient entity)
+    public Task CreateAsync(Patient entity)
     {
         _patients.Add(entity);
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Deletes a patient by identifier
+    /// Deletes a patient by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Patient identifier</param>
-    public void Delete(int entityId)
+    public Task DeleteAsync(int entityId)
     {
-        var patient = Read(entityId);
+        var patient = _patients.FirstOrDefault(p => p.Id == entityId);
         if (patient != null)
             _patients.Remove(patient);
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Retrieves a patient by identifier
+    /// Retrieves a patient by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Patient identifier</param>
     /// <returns>Patient if found</returns>
-    public Patient? Read(int entityId)
+    public Task<Patient?> ReadAsync(int entityId)
     {
-        return _patients.FirstOrDefault(p => p.Id == entityId);
+        return Task.FromResult(_patients.FirstOrDefault(p => p.Id == entityId));
     }
 
     /// <summary>
-    /// Retrieves all patients
+    /// Retrieves all patients asynchronously
     /// </summary>
     /// <returns>List of all patients</returns>
-    public List<Patient> ReadAll()
+    public Task<List<Patient>> ReadAllAsync()
     {
-        return [.. _patients];
+        return Task.FromResult<List<Patient>>([.. _patients]);
     }
 
     /// <summary>
-    /// Updates an existing patient
+    /// Updates an existing patient asynchronously
     /// </summary>
     /// <param name="entity">Patient with updated data</param>
-    public void Update(Patient entity)
+    public async Task UpdateAsync(Patient entity)
     {
-        Delete(entity.Id);
-        Create(entity);
+        await DeleteAsync(entity.Id);
+        await CreateAsync(entity);
     }
 }

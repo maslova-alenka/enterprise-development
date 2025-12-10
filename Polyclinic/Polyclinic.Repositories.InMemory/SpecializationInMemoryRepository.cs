@@ -20,51 +20,54 @@ public class SpecializationInMemoryRepository : IRepository<Specialization, int>
     }
 
     /// <summary>
-    /// Creates a new specialization
+    /// Creates a new specialization asynchronously
     /// </summary>
     /// <param name="entity">Specialization to create</param>
-    public void Create(Specialization entity)
+    public Task CreateAsync(Specialization entity)
     {
         _specializations.Add(entity);
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Deletes a specialization by identifier
+    /// Deletes a specialization by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Specialization identifier</param>
-    public void Delete(int entityId)
+    public Task DeleteAsync(int entityId)
     {
-        var specialization = Read(entityId);
+        var specialization = _specializations.FirstOrDefault(s => s.Id == entityId);
         if (specialization != null)
             _specializations.Remove(specialization);
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Retrieves a specialization by identifier
+    /// Retrieves a specialization by identifier asynchronously
     /// </summary>
     /// <param name="entityId">Specialization identifier</param>
     /// <returns>Specialization if found</returns>
-    public Specialization? Read(int entityId)
+    public Task<Specialization?> ReadAsync(int entityId)
     {
-        return _specializations.FirstOrDefault(s => s.Id == entityId);
+        return Task.FromResult(_specializations.FirstOrDefault(s => s.Id == entityId));
     }
 
     /// <summary>
-    /// Retrieves all specializations
+    /// Retrieves all specializations asynchronously
     /// </summary>
     /// <returns>List of all specializations</returns>
-    public List<Specialization> ReadAll()
+    public Task<List<Specialization>> ReadAllAsync()
     {
-        return [.. _specializations];
+        return Task.FromResult<List<Specialization>>([.. _specializations]);
     }
 
     /// <summary>
-    /// Updates an existing specialization
+    /// Updates an existing specialization asynchronously
     /// </summary>
     /// <param name="entity">Specialization with updated data</param>
-    public void Update(Specialization entity)
+    public async Task UpdateAsync(Specialization entity)
     {
-        Delete(entity.Id);
-        Create(entity);
+        await DeleteAsync(entity.Id);
+        await CreateAsync(entity);
     }
 }

@@ -11,9 +11,12 @@ using Polyclinic.Domain.Interfaces;
 using Polyclinic.Domain.Models;
 using Polyclinic.Infrastructure.EfCore;
 using Polyclinic.Infrastructure.EfCore.Repositories;
+using Polyclinic.ServiceDefaults;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.Services.AddDbContext<PolyclinicDbContext>(options =>
 {

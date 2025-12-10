@@ -21,6 +21,7 @@
 		<ProjectReference Include="..\Polyclinic.Domain\Polyclinic.Domain.csproj" />
 		<ProjectReference Include="..\Polyclinic.Application\Polyclinic.Application.csproj" />
 		<ProjectReference Include="..\Polyclinic.Infrastructure.EfCore\Polyclinic.Infrastructure.EfCore.csproj" />
+		<ProjectReference Include="..\Polyclinic.ServiceDefaults\Polyclinic.ServiceDefaults.csproj" />
 	</ItemGroup>
 
 </Project>

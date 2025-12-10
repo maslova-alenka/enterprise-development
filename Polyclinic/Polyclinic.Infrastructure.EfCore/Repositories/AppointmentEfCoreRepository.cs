@@ -13,7 +13,7 @@ public class AppointmentEfCoreRepository(PolyclinicDbContext db) : IRepository<A
     /// <summary>
     /// Creates new appointment with proper entity tracking.
     /// </summary>
-    public void Create(Appointment entity)
+    public async Task CreateAsync(Appointment entity)
     {
         if (entity.Patient == null || entity.Patient.Id <= 0)
             throw new ArgumentException("Patient must have valid Id");
@@ -21,69 +21,63 @@ public class AppointmentEfCoreRepository(PolyclinicDbContext db) : IRepository<A
         if (entity.Doctor == null || entity.Doctor.Id <= 0)
             throw new ArgumentException("Doctor must have valid Id");
 
-        if (entity.Patient.Id > 0)
-        {
-            var existingPatient = db.Patients.Local.FirstOrDefault(p => p.Id == entity.Patient.Id)
-                                ?? db.Patients.Find(entity.Patient.Id);
-            if (existingPatient != null) entity.Patient = existingPatient;
-        }
+        var existingPatient = db.Patients.Local.FirstOrDefault(p => p.Id == entity.Patient.Id)
+                            ?? await db.Patients.FindAsync(entity.Patient.Id);
+        if (existingPatient != null) entity.Patient = existingPatient;
 
-        if (entity.Doctor.Id > 0)
-        {
-            var existingDoctor = db.Doctors.Local.FirstOrDefault(d => d.Id == entity.Doctor.Id)
-                               ?? db.Doctors.Find(entity.Doctor.Id);
-            if (existingDoctor != null) entity.Doctor = existingDoctor;
-        }
+        var existingDoctor = db.Doctors.Local.FirstOrDefault(d => d.Id == entity.Doctor.Id)
+                           ?? await db.Doctors.FindAsync(entity.Doctor.Id);
+        if (existingDoctor != null) entity.Doctor = existingDoctor;
 
-        db.Appointments.Add(entity);
-        db.SaveChanges();
+        await db.Appointments.AddAsync(entity);
+        await db.SaveChangesAsync();
     }
 
     /// <summary>
     /// Deletes appointment by ID if exists.
     /// </summary>
-    public void Delete(int entityId)
+    public async Task DeleteAsync(int entityId)
     {
-        var entity = db.Appointments.Find(entityId);
+        var entity = await db.Appointments.FindAsync(entityId);
         if (entity != null)
         {
             db.Appointments.Remove(entity);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 
     /// <summary>
     /// Gets appointment by ID with Patient, Doctor and Specialization.
     /// </summary>
-    public Appointment? Read(int entityId)
+    public async Task<Appointment?> ReadAsync(int entityId)
     {
-        return db.Appointments
+        return await db.Appointments
             .Include(a => a.Patient)
             .Include(a => a.Doctor).ThenInclude(d => d.Specialization)
-            .FirstOrDefault(a => a.Id == entityId);
+            .FirstOrDefaultAsync(a => a.Id == entityId);
     }
 
     /// <summary>
     /// Gets all appointments with related data, ordered by ID.
     /// </summary>
-    public List<Appointment> ReadAll()
+    public async Task<List<Appointment>> ReadAllAsync()
     {
-        return db.Appointments
+        return await db.Appointments
             .Include(a => a.Patient)
             .Include(a => a.Doctor).ThenInclude(d => d.Specialization)
             .OrderBy(a => a.Id)
-            .ToList();
+            .ToListAsync();
     }
 
     /// <summary>
     /// Updates existing appointment if found.
     /// </summary>
-    public void Update(Appointment entity)
+    public async Task UpdateAsync(Appointment entity)
     {
-        if (db.Appointments.Any(x => x.Id == entity.Id))
+        if (await db.Appointments.AnyAsync(x => x.Id == entity.Id))
         {
             db.Appointments.Update(entity);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }
