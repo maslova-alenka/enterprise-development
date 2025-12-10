@@ -53,7 +53,7 @@ public class AppointmentEfCoreRepository(PolyclinicDbContext db) : IRepository<A
     {
         return await db.Appointments
             .Include(a => a.Patient)
-            .Include(a => a.Doctor).ThenInclude(d => d.Specialization)
+            .Include(a => a.Doctor.Specialization)
             .FirstOrDefaultAsync(a => a.Id == entityId);
     }
 
@@ -64,7 +64,7 @@ public class AppointmentEfCoreRepository(PolyclinicDbContext db) : IRepository<A
     {
         return await db.Appointments
             .Include(a => a.Patient)
-            .Include(a => a.Doctor).ThenInclude(d => d.Specialization)
+            .Include(a => a.Doctor.Specialization)
             .OrderBy(a => a.Id)
             .ToListAsync();
     }
