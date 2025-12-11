@@ -73,7 +73,7 @@ public class PatientService(
     /// <returns>Updated patient</returns>
     public async Task<PatientDto> UpdateAsync(PatientCreateUpdateDto dto, int dtoId)
     {
-        var existingPatient = await patientRepository.ReadAsync(dtoId)
+        _ = await patientRepository.ReadAsync(dtoId)
             ?? throw new ArgumentException($"Patient with ID {dtoId} not found");
 
         var updatePatient = mapper.Map<Patient>(dto);

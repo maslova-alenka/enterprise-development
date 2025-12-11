@@ -33,7 +33,7 @@ public class DoctorsController(IDoctorService crudService, ILogger<DoctorsContro
         catch (ArgumentException ex)
         {
             logger.LogWarning(ex, "Validation error in GetDoctorAppointmentsAsync");
-            return BadRequest(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -63,7 +63,7 @@ public class DoctorsController(IDoctorService crudService, ILogger<DoctorsContro
         catch (ArgumentException ex)
         {
             logger.LogWarning(ex, "Validation error in GetDoctorPatientsAsync");
-            return BadRequest(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

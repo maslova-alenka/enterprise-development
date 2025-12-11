@@ -63,7 +63,7 @@ public class AppointmentsController(IAppointmentService crudService, ILogger<App
         catch (ArgumentException ex)
         {
             logger.LogWarning(ex, "Validation error in GetAppointmentDoctorAsync");
-            return BadRequest(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

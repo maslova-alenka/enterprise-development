@@ -87,12 +87,12 @@ public abstract class CrudControllerBase<TDto, TCreateUpdateDto, TKey>(
         catch (ArgumentException ex) when (ex.Message.Contains("not found"))
         {
             logger.LogWarning(ex, "Entity not found in EditAsync");
-            return NotFound(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (ArgumentException ex)
         {
             logger.LogWarning(ex, "Validation error in EditAsync");
-            return BadRequest(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

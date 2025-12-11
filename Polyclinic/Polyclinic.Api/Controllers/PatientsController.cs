@@ -32,7 +32,7 @@ public class PatientsController(IPatientService crudService, ILogger<PatientsCon
         catch (ArgumentException ex)
         {
             logger.LogWarning(ex, "Validation error in GetPatientAppointmentsAsync");
-            return BadRequest(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {

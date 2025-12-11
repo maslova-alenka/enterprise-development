@@ -147,7 +147,7 @@ public class AnalyticsController(IAnalyticsService service, ILogger<AnalyticsCon
         catch (ArgumentException ex)
         {
             logger.LogWarning(ex, "Validation error in GetAppointmentsByRoomForCurrentMonthAsync");
-            return BadRequest(new { Message = ex.Message });
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
