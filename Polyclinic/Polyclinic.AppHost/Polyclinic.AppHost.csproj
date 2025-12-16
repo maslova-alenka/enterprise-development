@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Polyclinic.Api\Polyclinic.Api.csproj" />
+		<ProjectReference Include="..\Polyclinic.Grpc.Client\Polyclinic.Grpc.Client.csproj" />
 	</ItemGroup>
 
 </Project>

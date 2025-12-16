@@ -14,7 +14,7 @@ builder.Services.Configure<WorkerOptions>(
     builder.Configuration.GetSection(WorkerOptions.SectionName));
 
 
-builder.Services.AddSingleton<AppointmentContractGenerator>();
+builder.Services.AddSingleton<AppointmentGenerator>();
 
 
 builder.Services.AddHostedService<Worker>();

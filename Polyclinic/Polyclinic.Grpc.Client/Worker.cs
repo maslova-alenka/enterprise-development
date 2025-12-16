@@ -18,7 +18,7 @@ namespace Polyclinic.Grpc.Client;
 public class Worker(
     ILogger<Worker> logger,
     IOptions<WorkerOptions> options,
-    AppointmentContractGenerator generator) : BackgroundService
+    AppointmentGenerator generator) : BackgroundService
 {
     private readonly WorkerOptions _options = options.Value;
 

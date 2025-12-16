@@ -6,8 +6,19 @@
     <Nullable>enable</Nullable>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+	
+		<ItemGroup>
+		<Protobuf Include="..\Polyclinic.Grpc.Protos\polyclinic.proto" GrpcServices="Client" />
+	</ItemGroup>
+	
 
 	<ItemGroup>
+		<PackageReference Include="Google.Protobuf" Version="3.33.2" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.76.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 		<PackageReference Include="AutoMapper" Version="15.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10.0">
