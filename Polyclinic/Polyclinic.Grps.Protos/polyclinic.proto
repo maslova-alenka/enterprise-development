@@ -1,0 +1,25 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Polyclinic.Grpc.Protos";
+
+package polyclinic;
+
+// Appointment data message
+message AppointmentResponse {
+  int32 patient_id = 1;
+  int32 doctor_id = 2;
+  string appointment_date = 3;
+  int32 room_number = 4;
+  bool is_follow_up = 5;
+}
+
+// API response about processing status
+message GenerationCallback {
+  bool success = 1;
+  string error = 2;
+}
+
+// Generation service
+service PolyclinicGenerator {
+  rpc StreamAppointments (stream GenerationCallback) returns (stream AppointmentResponse);
+}
