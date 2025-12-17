@@ -28,6 +28,9 @@ Polyclinic/
 │   │   ├── DoctorsController.cs
 │   │   ├── PatientsController.cs
 │   │   └── SpecializationsController.cs
+│   ├── Grpc/
+│   │   ├── AppointmentProcessResult.cs
+│   │   ├── AppointmentReceiverService.cs
 │   ├── Program.cs
 │   ├── Properties/
 │   │   └── launchSettings.json
@@ -84,6 +87,18 @@ Polyclinic/
 │   └── Data/
 │       └── DataSeed.cs
 |
+├──Polyclinic.Grpc.Client/
+│   ├── Properties/
+│   │   └── launchSettings.json
+│   ├── appsettings.json
+│   ├── AppointmentGenerator.cs
+│   ├── Program.cs
+│   ├── Worker.cs
+|   └──WorkerOptions.cs
+|
+├── Polyclinic.Grpc.Protos/
+│  └── polyclinic.proto
+|
 ├──Polyclinic.Infrastructure.EfCore/
 |   ├── Migrations/
 │   ├── Repositories/
@@ -129,3 +144,9 @@ Polyclinic/
 Созданы миграции для генерации таблиц и их начального заполнения. 
 Настроены связи между сущностями и репозитории для работы с БД. 
 Подготовлена конфигурация для запуска приложения и БД через Aspire.
+
+# Лабораторная работа 3 - "Инфраструктура"
+## Описание проекта
+Создан автономный gRPC-генератор для потоковой отправки контрактов с ретраями при ошибках. 
+Сервер валидирует и сохраняет данные через Entity Framework. 
+Вся система оркестрируется через Aspire AppHost с автоматической конфигурацией соединений.
