@@ -14,12 +14,13 @@ public class AppointmentReceiverService(
     IRepository<Patient, int> patientRepository,
     IRepository<Doctor, int> doctorRepository,
     ILogger<AppointmentReceiverService> logger)
+    : PolyclinicGenerator.PolyclinicGeneratorBase
 {
     /// <summary>
     /// Processes appointment contracts stream from client (bidirectional streaming).
     /// Sends status feedback for each appointment during processing.
     /// </summary>
-    public async Task StreamAppointments(
+    public override async Task StreamAppointments(
         IAsyncStreamReader<AppointmentResponse> requestStream,
         IServerStreamWriter<GenerationCallback> responseStream,
         ServerCallContext context)
@@ -69,6 +70,9 @@ public class AppointmentReceiverService(
         }
     }
 
+    /// <summary>
+    /// Validates and processes a single appointment contract.
+    /// </summary>
     private async Task<AppointmentProcessResult> ProcessAppointmentAsync(AppointmentResponse appointment)
     {
         try
@@ -127,6 +131,9 @@ public class AppointmentReceiverService(
         }
     }
 
+    /// <summary>
+    /// Result of appointment processing operation.
+    /// </summary>
     private class AppointmentProcessResult
     {
         public bool Success { get; init; }

@@ -10,10 +10,6 @@ public class AppointmentGenerator
 {
     private readonly Faker _faker = new();
 
-    private static readonly string[] _genders = ["Male", "Female"];
-    private static readonly string[] _bloodTypes = ["O", "A", "B", "Ab"];
-    private static readonly string[] _rhFactors = ["Positive", "Negative"];
-
     /// <summary>
     /// Generates one random appointment contract.
     /// </summary>
@@ -33,7 +29,7 @@ public class AppointmentGenerator
             AppointmentDate = _faker.Date.FutureDateOnly(1).ToString("yyyy-MM-dd") +
                              $"T{hour:00}:{minute:00}:00",
             RoomNumber = _faker.Random.Int(100, 500),
-            IsFollowUp = _faker.Random.Bool(0.3f) // 30% follow-up appointments
+            IsFollowUp = _faker.Random.Bool(0.3f) 
         };
     }
 
