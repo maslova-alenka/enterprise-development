@@ -10,6 +10,9 @@ public class AppointmentGenerator
 {
     private readonly Faker _faker = new();
 
+    private static readonly int[] _minutes = { 0, 15, 30, 45 };
+    private const string DateFormat = "yyyy-MM-ddTHH:mm:ss";
+
     /// <summary>
     /// Generates one random appointment contract.
     /// </summary>
@@ -19,17 +22,22 @@ public class AppointmentGenerator
         int maxPatientId = 10,
         int maxDoctorId = 10)
     {
-        var hour = _faker.Random.Int(8, 18);
-        var minute = _faker.PickRandom(new[] { 0, 15, 30, 45 });
+        var date = _faker.Date.Future(1);
+        var appointmentDateTime = new DateTime(
+            date.Year,
+            date.Month,
+            date.Day,
+            _faker.Random.Int(8, 18),
+            _faker.PickRandom(_minutes),
+            0);
 
         return new AppointmentResponse
         {
             PatientId = _faker.Random.Int(1, maxPatientId),
             DoctorId = _faker.Random.Int(1, maxDoctorId),
-            AppointmentDate = _faker.Date.FutureDateOnly(1).ToString("yyyy-MM-dd") +
-                             $"T{hour:00}:{minute:00}:00",
+            AppointmentDate = appointmentDateTime.ToString(DateFormat),
             RoomNumber = _faker.Random.Int(100, 500),
-            IsFollowUp = _faker.Random.Bool(0.3f) 
+            IsFollowUp = _faker.Random.Bool(0.3f)
         };
     }
 

@@ -7,7 +7,7 @@ var api = builder.AddProject<Projects.Polyclinic_Api>("polyclinic-api")
     .WithReference(mysqlDb, "mysqldb")
     .WaitFor(mysqlDb);
 
-builder.AddProject<Projects.Polyclinic_Grpc_Client>("polyclinic-grpc-client")
+builder.AddProject<Projects.Polyclinic_Grpc_Client>("polyclinic-grpc-client", launchProfileName: null)
     .WithEnvironment("Worker__ServerAddress", api.GetEndpoint("https"))
     .WaitFor(api);
 

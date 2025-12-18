@@ -1,7 +1,5 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polyclinic.Grpc.Protos;
 
@@ -29,20 +27,31 @@ public class Worker(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation(
-            "Worker started. Server: {Server}, Batch size: {BatchSize}, Interval: {Interval}s",
-            _options.ServerAddress, _options.BatchSize, _options.BatchIntervalSeconds);
+            "Worker started. Server: {Server}, Batch size: {BatchSize}, Max batches: {MaxBatches}",
+            _options.ServerAddress, _options.BatchSize, _options.MaxBatches);
 
         await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
 
-        while (!stoppingToken.IsCancellationRequested)
+        var batchCount = 0;
+
+        while (!stoppingToken.IsCancellationRequested && batchCount < _options.MaxBatches)
         {
             try
             {
                 await SendAppointmentBatchAsync(stoppingToken);
+                batchCount++;
+
+                if (batchCount >= _options.MaxBatches)
+                {
+                    logger.LogInformation("Reached maximum batches limit ({MaxBatches}). Stopping.",
+                        _options.MaxBatches);
+                    break;
+                }
 
                 logger.LogInformation(
-                    "Waiting {Interval} seconds before next batch...",
-                    _options.BatchIntervalSeconds);
+                    "Waiting {Interval} seconds before next batch... ({Current}/{Max})",
+                    _options.BatchIntervalSeconds, batchCount, _options.MaxBatches);
+
                 await Task.Delay(TimeSpan.FromSeconds(_options.BatchIntervalSeconds), stoppingToken);
             }
             catch (RpcException ex) when (ex.StatusCode == StatusCode.Unavailable)
@@ -57,7 +66,7 @@ public class Worker(
             }
         }
 
-        logger.LogInformation("Worker stopped.");
+        logger.LogInformation("Worker stopped. Processed {Batches} batches.", batchCount);
     }
 
     /// <summary>
@@ -79,9 +88,7 @@ public class Worker(
 
         logger.LogInformation("Starting bidirectional stream for {Count} appointments...", appointments.Count);
 
-
         using var call = client.StreamAppointments(cancellationToken: cancellationToken);
-
 
         var sendTask = Task.Run(async () =>
         {

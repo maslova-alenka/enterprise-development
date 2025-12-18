@@ -31,4 +31,9 @@ public class WorkerOptions
     /// Maximum doctor ID in database.
     /// </summary>
     public int MaxDoctorId { get; init; } = 10;
+
+    /// <summary>
+    /// Maximum number of batches to generate.
+    /// </summary>
+    public int MaxBatches { get; init; } = 10;
 }
